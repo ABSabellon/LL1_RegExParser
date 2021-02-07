@@ -12,10 +12,9 @@ public class ParserTabPanel extends JPanel implements GUIInterface {
         setLayout(new BorderLayout(0, 0));
         jTextArea = new JTextArea(30, 35);
         jTextArea.setEditable(false);
-        jTextArea.setLineWrap(true);
+        jTextArea.setLineWrap(false);
 
-        JScrollPane scrollPane = new JScrollPane();
-        scrollPane.setViewportView(jTextArea);
+        JScrollPane scrollPane = new JScrollPane(jTextArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         add(scrollPane, BorderLayout.CENTER);
     }
 

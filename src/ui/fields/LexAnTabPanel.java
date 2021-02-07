@@ -15,7 +15,6 @@ public class LexAnTabPanel extends JPanel implements GUIInterface {
         jTextArea.setLineWrap(false);
 
         JScrollPane scrollPane = new JScrollPane(jTextArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        //scrollPane.setViewportView(jTextArea);
         add(scrollPane, BorderLayout.CENTER);
     }
 
