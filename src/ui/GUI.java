@@ -208,8 +208,6 @@ public class GUI extends JPanel {
                 catch(ParseException err){
                     content += " - " + err.getMessage();
                 }
-
-                System.out.println();
                 content += "\n";
             }
             parser.printList();
