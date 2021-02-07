@@ -1,6 +1,7 @@
 package core.parser;
 
 import core.lexer.Token;
+import core.lexer.TokenType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +14,13 @@ public class Parser {
     }
 
     public void addTokenLine(List<Token> scannedTokens) {
-        this.lines.add((ArrayList<Token>) scannedTokens); //typecasting
+        ArrayList<Token> noDelimiters = new ArrayList<Token>();
+        for(Token token: scannedTokens){
+            if(token.getType() != TokenType.DELIMITER){
+                noDelimiters.add(token);
+            }
+        }
+        this.lines.add(noDelimiters);
     }
 
     public void printList(){
