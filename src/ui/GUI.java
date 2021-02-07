@@ -14,10 +14,10 @@ import ui.fields.InputFields;
 import ui.fields.LexAnTabPanel;
 import ui.fields.ParserTabPanel;
 
-import ui.util.FileUtil;
+import io.FileUtil;
 import ui.util.GUIMenu;
 import ui.util.GUIMenuInterFace;
-import ui.util.TxtFilter;
+import io.TxtFilter;
 
 import javax.swing.*;
 
