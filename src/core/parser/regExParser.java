@@ -74,11 +74,6 @@ public class regExParser extends Parser{
                     super.index++;
                     oper();
                 }
-                else if(lookaheadToken == null){ //no more next tokens
-                    if(!isParenBalance()){
-                        reject();
-                    }
-                }
             }
         }
         else{
@@ -104,10 +99,6 @@ public class regExParser extends Parser{
             if (lookaheadToken.getType() == TokenType.ALPHANUM) {
                 super.index++;
                 oper();
-            } else if (lookaheadToken == null) { //no more next tokens
-                if (!isParenBalance()) {
-                    reject();
-                }
             } else {
                 reject();
             }
@@ -131,11 +122,6 @@ public class regExParser extends Parser{
                 super.index++;
                 comb();
             }
-            else if(lookaheadToken == null){ //no more next tokens
-                if(!isParenBalance()){
-                    reject();
-                }
-            }
             else {
                 reject();
             }
@@ -149,11 +135,8 @@ public class regExParser extends Parser{
             if (lookaheadToken.getType() == TokenType.UNION) {
                 super.index++;
                 factor();
-            } else if (lookaheadToken == null) { //no more next tokens
-                if (!isParenBalance()) {
-                    reject();
-                }
-            } else {
+            }
+            else {
                 reject();
             }
         }
@@ -163,14 +146,8 @@ public class regExParser extends Parser{
     public void factor(){ //state 4
         Token lookaheadToken = lookahead(super.index);
         if(lookaheadToken != null) {
-            if (lookaheadToken == null) { //no more next tokens
-                if (!isParenBalance()) {
-                    reject();
-                }
-            } else {
-                super.index++;
-                start();
-            }
+            super.index++;
+            start();
         }
     }
 
@@ -181,11 +158,6 @@ public class regExParser extends Parser{
             if(lookaheadToken.getType() == TokenType.UNION){
                 super.index++;
                 comb();
-            }
-            else if(lookaheadToken == null){ //no more next tokens
-                if(!isParenBalance()){
-                    reject();
-                }
             }
             else {
                 super.index++;
