@@ -1,16 +1,28 @@
 package core.lexer;
 
-import exceptions.UnknownCharacterException;
+import core.exception.TokenSource;
+import core.exception.UnknownCharacterException;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import static core.lexer.TokenType.*;
+/**
+ * LEXER
+ *
+ * ALPHANUM -> [a-z0-9]
+ * EPSILON -> 'E'
+ * OPERATIONS -> '?', '*', '+'
+ * UNION -> 'U'
+ * LP -> '('
+ * RP -> ')'
+ * */
 
 /**
  * scanner.Scanner class for the calculator. Parses the input string, identifying valid tokens.
  */
-public class Scanner {
+public abstract class Scanner implements TokenSource {
     /**
      * Input string to be parsed
      */
@@ -99,6 +111,8 @@ public class Scanner {
     private boolean isAtEnd() {
         return current >= input.length();
     }
+
+    public abstract Token nextToken() throws IOException;
 
     private char advance() {
         return input.charAt(current++);

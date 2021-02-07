@@ -1,10 +1,10 @@
-/*
 package core.parser;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import core.exception.TokenSource;
 import core.lexer.Token;
 
 public class Parser {
@@ -12,14 +12,10 @@ public class Parser {
 
     protected TokenSource input = null;
 
-    */
-/** Buffer of all tokens including EOF *//*
-
+    /** Buffer of all tokens including EOF */
     protected Token[] tokens = null;
 
-    */
-/** Pointer into tokens buffer; p=-1 means uninitialized *//*
-
+    /** Pointer into tokens buffer; p=-1 means uninitialized */
     protected int p = -1;
 
     public Parser(TokenSource input) throws IOException {
@@ -44,11 +40,12 @@ public class Parser {
         p++;
     }
 
+    //lookahead -
     protected int lookahead() {
         if ( p>=tokens.length ) {
             return Token.EOF_TYPE;
         }
-        return tokens[p].type;
+        return tokens[p].getType(); //get current Tokens
     }
 
     protected Token token() {
@@ -56,13 +53,11 @@ public class Parser {
     }
 
     protected void match(int type) {
-        System.out.println("match "+type+" with "+tokens[p]);
         if ( tokens[p].type!=type ) {
-            throw new RuntimeException("token mismatch: expecting token type "+type+"; found "+
-                    token().text);
+            throw new RuntimeException("REJECTED"+
+                    token().getLexeme());
         }
         consume();
     }
 
 }
-*/

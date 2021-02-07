@@ -1,10 +1,8 @@
-/*
 package core.parser;
 
 import java.io.IOException;
 
-    */
-/**
+    /**
      *  This parser follows LL(1) Parser:
      *
      * start -> term | EPSILON | LP start | oper
@@ -13,69 +11,45 @@ import java.io.IOException;
      * withUnion -> UNION factor
      * factor -> start | EPSILON
      * prod-> start | withUnion | ε
-     *
-     * LEXER
-     * ALPHANUM -> [a-z0-9]
-     * EPSILON -> 'E'
-     * OPERATIONS -> '?', '*', '+'
-     * UNION -> 'U'
-     * LP -> '('
-     * RP -> ')'
-     *//*
-
+     */
 
 public class regExParser extends Parser{
         public ExprParser(TokenSource input) throws IOException {
             super(input);
         }
 
-    */
-/** start -> term | EPSILON | LP start | oper *//*
-
+    /** start -> term | EPSILON | LP start | oper */
     public void start(){
         term();
 
     }
-    */
-/** term ->  ALPHANUM oper *//*
-
+    /** term ->  ALPHANUM oper */
     public void term(){
-       */
-/* if(lookahead() == token.ALPHANUM){
+       /* if(lookahead() == token.ALPHANUM){
 
-        }*//*
-
+        }*/
 
     }
 
-    */
-/** oper -> OPERATIONS prod | withUnion | ε *//*
-
+    /** oper -> OPERATIONS prod | withUnion | ε */
     public void oper(){
 
     }
 
-    */
-/** withUnion -> UNION factor *//*
-
+    /** withUnion -> UNION factor */
     public void withUnion(){
 
     }
 
-    */
-/** factor -> start | EPSILON *//*
-
+    /** factor -> start | EPSILON */
     public void factor(){
 
     }
 
-    */
-/** prod-> start | withUnion | ε *//*
-
+    /** prod-> start | withUnion | ε */
     public void prod(){
 
     }
 
 
 }
-*/

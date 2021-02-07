@@ -7,7 +7,7 @@ public class Token {
     /**
      * Type of token
      */
-    private final TokenType type;
+    public final TokenType type;
 
     /**
      * Original lexeme
@@ -18,6 +18,9 @@ public class Token {
      * Token's value (for NUMBER only)
      */
     private final Object value;
+
+    public static final int INVALID_TYPE = 0;
+    public static final int EOF_TYPE = -1;
 
     public Token(TokenType type, String lexeme, Object value) {
         this.type = type;

@@ -1,4 +1,3 @@
-/*
 package core.parser;
 
 public class test {
@@ -20,8 +19,7 @@ public class test {
     private int evalDigit(int digit) {
         return digit - '0';
     }
-    */
-/** Exp -> Term Exp1 *//*
+* Exp -> Term Exp1
 
     private int Exp() throws IOException, ParseError {
         if ( (lookaheadToken < '0' || lookaheadToken > '9') && lookaheadToken != '(')
@@ -30,8 +28,7 @@ public class test {
         int exp1 = Exp1(term);
         return exp1;
     }
-    */
-/** Exp1 -> + Term Exp1 | - Term Exp1 | ε *//*
+* Exp1 -> + Term Exp1 | - Term Exp1 | ε
 
     private int Exp1(int left_term) throws IOException, ParseError {
         if (lookaheadToken != '+' && lookaheadToken != '-') // || lookaheadToken == '\n' || lookaheadToken == -1
@@ -50,8 +47,7 @@ public class test {
             return exp1;
         }
     }
-    */
-/** Term -> Factor Term1 *//*
+* Term -> Factor Term1
 
     private int Term() throws IOException, ParseError {
         if ( (lookaheadToken < '0' || lookaheadToken > '9') && lookaheadToken != '(')
@@ -63,8 +59,7 @@ public class test {
         return term;
     }
 
-    */
-/** Term1 -> * Factor Term1 | / Factor Term1 | ε *//*
+* Term1 -> * Factor Term1 | / Factor Term1 | ε
 
     private int Term1(int left_term) throws IOException, ParseError {
         if (lookaheadToken != '*' && lookaheadToken != '/')
@@ -84,8 +79,7 @@ public class test {
         }
     }
 
-    */
-/** Factor -> ( Exp ) | Digits *//*
+* Factor -> ( Exp ) | Digits
 
     private int Factor() throws IOException, ParseError {
         if (lookaheadToken < '0' || lookaheadToken > '9') {
@@ -98,8 +92,7 @@ public class test {
         }
         return Digits();
     }
-    */
-/** Digits -> Digit More *//*
+* Digits -> Digit More
 
     private int Digits() throws IOException, ParseError {
         if (lookaheadToken < '0' || lookaheadToken > '9')
@@ -117,8 +110,7 @@ public class test {
         return number;
     }
 
-    */
-/** More -> Digits | ε *//*
+* More -> Digits | ε
 
     private int More() throws IOException, ParseError {
         if (lookaheadToken < '0' || lookaheadToken > '9')
@@ -126,8 +118,7 @@ public class test {
         return Digit();
     }
 
-    */
-/**  *//*
+*
 
     private int Digit() throws IOException, ParseError {
         if(lookaheadToken < '0' || lookaheadToken > '9')
@@ -157,4 +148,3 @@ public class test {
         }
     }
 }
-*/

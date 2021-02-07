@@ -1,4 +1,4 @@
-package exceptions;
+package core.exception;
 
 public class UnknownCharacterException extends RuntimeException {
     public UnknownCharacterException(char ch) {
