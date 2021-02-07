@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.util.List;
 
 import core.exception.ParseException;
-import core.exception.UnknownCharacterException;
 import core.lexer.Scanner;
 import core.lexer.Token;
 import core.lexer.TokenType;
@@ -190,8 +189,7 @@ public class GUI extends JPanel {
                 try {
                     scannedTokens = scanner.scanTokens();
                 }
-                catch(UnknownCharacterException err){
-                    content += " - " + err.getMessage();
+                catch(Exception err){
                 }
 
                 try {

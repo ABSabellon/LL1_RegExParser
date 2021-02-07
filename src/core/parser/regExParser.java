@@ -1,9 +1,6 @@
 package core.parser;
 
-import core.exception.TokenSource;
-import java.io.IOException;
-
-    /**
+/**
      *  This parser follows LL(1) Parser:
      *
      * start -> term | EPSILON | LP start | oper
@@ -19,7 +16,7 @@ public class regExParser extends Parser{
         super();
     }
 
-    /** start -> term | EPSILON | LP start | oper */
+    //** start -> term | EPSILON | LP start | oper *//
     public void start(){
 //        if(lookahead() == ){
 //
@@ -27,30 +24,28 @@ public class regExParser extends Parser{
 //        term();
 
     }
-    /** term ->  ALPHANUM oper */
+    //** term ->  ALPHANUM oper *//*
     public void term(){
-       /* if(lookahead() == token.ALPHANUM){
-
-        }*/
+       //* if(lookahead() == token.ALPHANUM){
 
     }
 
-    /** oper -> OPERATIONS prod | withUnion | ε */
+    //** oper -> OPERATIONS prod | withUnion | ε *//*
     public void oper(){
 
     }
 
-    /** withUnion -> UNION factor */
+    //** withUnion -> UNION factor *//*
     public void withUnion(){
 
     }
 
-    /** factor -> start | EPSILON */
+    //** factor -> start | EPSILON *//*
     public void factor(){
 
     }
 
-    /** prod-> start | withUnion | ε */
+    //** prod-> start | withUnion | ε *//*
     public void prod(){
 
     }

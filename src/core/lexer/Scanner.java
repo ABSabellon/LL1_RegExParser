@@ -1,9 +1,5 @@
 package core.lexer;
 
-import core.exception.TokenSource;
-import core.exception.UnknownCharacterException;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,6 +55,7 @@ public class Scanner { //implements TokenSource {
         return scannedTokens;
     }
 
+    //The switch case below is based in a FSM
     private void scanToken() {
         char ch = advance();
 
@@ -68,42 +65,42 @@ public class Scanner { //implements TokenSource {
             case '\t':
             case '\r':
             case '\n':
-                addToken(DELIMITER);
+                addToken(DELIMITER); //State 1
                 break;
 
             case '?':
-                addToken(OPTIONAL);
+                addToken(OPTIONAL); //State 2
                 break;
 
             case '*':
-                addToken(ZERO_OR_MANY);
+                addToken(ZERO_OR_MANY); //State 3
                 break;
 
             case '+':
-                addToken(ONE_OR_MANY);
+                addToken(ONE_OR_MANY); //State 4
                 break;
 
             case 'E':
-                addToken(EMPTY);
+                addToken(EPSILON); //State 5
                 break;
 
             case 'U':
-                addToken(UNION);
+                addToken(UNION); //State 6
                 break;
 
             case '(':
-                addToken(LEFT_PAR);
+                addToken(LEFT_PAR); //State 7
                 break;
 
             case ')':
-                addToken(RIGHT_PAR);
+                addToken(RIGHT_PAR); //State 8
                 break;
             default:
                 if (Character.isDigit(ch) || Character.isLowerCase(ch)) {
-                    addToken(ALPHANUM); //a-z0-9???
+                    addToken(ALPHANUM); //a-z0-9??? State 9
                 }
                 else {
-                    throw new UnknownCharacterException(input.charAt(current - 1));
+                    addToken(REJECT); // ETC State 10
                 }
         }
     }

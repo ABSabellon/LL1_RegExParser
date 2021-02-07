@@ -1,11 +1,9 @@
 package core.parser;
 
-import java.io.IOException;
+import core.lexer.Token;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import core.exception.TokenSource;
-import core.lexer.Token;
 
 public class Parser {
     protected ArrayList<ArrayList<Token>> lines;
