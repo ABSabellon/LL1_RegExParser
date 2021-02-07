@@ -22,7 +22,7 @@ import static core.lexer.TokenType.*;
 /**
  * scanner.Scanner class for the calculator. Parses the input string, identifying valid tokens.
  */
-public abstract class Scanner implements TokenSource {
+public class Scanner { //implements TokenSource {
     /**
      * Input string to be parsed
      */
@@ -112,7 +112,7 @@ public abstract class Scanner implements TokenSource {
         return current >= input.length();
     }
 
-    public abstract Token nextToken() throws IOException;
+//    public Token nextToken() throws IOException { }
 
     private char advance() {
         return input.charAt(current++);

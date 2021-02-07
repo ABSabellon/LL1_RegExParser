@@ -29,8 +29,8 @@ public class InputFields extends JPanel implements GUIInterface {
     }
 
     @Override
-    public void getText() {
-        jTextArea.getText();
+    public String getText() {
+        return jTextArea.getText();
     }
 
     @Override

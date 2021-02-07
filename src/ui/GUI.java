@@ -9,7 +9,13 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.List;
 
+import core.exception.ParseException;
+import core.exception.UnknownCharacterException;
+import core.lexer.Scanner;
+import core.lexer.Token;
+import core.lexer.TokenType;
 import ui.fields.InputFields;
 import ui.fields.LexAnTabPanel;
 import ui.fields.ParserTabPanel;
@@ -63,11 +69,11 @@ public class GUI extends JPanel {
         buttonPanel = new JPanel();
         buttonPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 
-        run = new JButton("Inspect Tree");
+        run = new JButton("Run");
         run.addActionListener(new RunActionListener());
         buttonPanel.add(run);
 
-        outPutFile = new JButton("Run");
+        outPutFile = new JButton("Create output file");
         outPutFile.addActionListener(new OutputFileActionListener());
         buttonPanel.add(outPutFile);
 
@@ -170,7 +176,40 @@ public class GUI extends JPanel {
 
         @Override
         public void actionPerformed(ActionEvent e) {
+            String[] lines = inputTextPanel.getText().split(System.getProperty("line.separator"));
+            String content = "";
+            for(String line: lines){
+                Scanner scanner = new Scanner(line);
+                content += line;
+                List<Token> scannedTokens = null;
 
+                try {
+                    scannedTokens = scanner.scanTokens();
+                }
+                catch(UnknownCharacterException err){
+                    content += " - " + err.getMessage();
+                }
+
+                try {
+                    if(scannedTokens != null){
+                        if(scannedTokens.size() > 0){
+                            content += " - ";
+                            for(Token token: scannedTokens) {
+                                if(token.getType() != TokenType.DELIMITER){
+                                    content = content + token.getType() + " ";
+                                }
+                            }
+                        }
+                    }
+                }
+                catch(ParseException err){
+                    content += " - " + err.getMessage();
+                }
+
+                System.out.println();
+                content += "\n";
+            }
+            lexAnTab.setText(content);
         }
     }
 

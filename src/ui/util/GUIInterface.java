@@ -3,6 +3,6 @@ package ui.util;
 public interface GUIInterface {
 
     void clear();
-    void getText();
+    String getText();
     void setText(String s);
 }

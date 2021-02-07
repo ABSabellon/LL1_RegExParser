@@ -12,10 +12,10 @@ public class LexAnTabPanel extends JPanel implements GUIInterface {
         setLayout(new BorderLayout(0, 0));
         jTextArea = new JTextArea(30, 35);
         jTextArea.setEditable(false);
-        jTextArea.setLineWrap(true);
+        jTextArea.setLineWrap(false);
 
-        JScrollPane scrollPane = new JScrollPane();
-        scrollPane.setViewportView(jTextArea);
+        JScrollPane scrollPane = new JScrollPane(jTextArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        //scrollPane.setViewportView(jTextArea);
         add(scrollPane, BorderLayout.CENTER);
     }
 
@@ -25,8 +25,8 @@ public class LexAnTabPanel extends JPanel implements GUIInterface {
     }
 
     @Override
-    public void getText() {
-        jTextArea.getText();
+    public String getText() {
+        return jTextArea.getText();
     }
 
     @Override
