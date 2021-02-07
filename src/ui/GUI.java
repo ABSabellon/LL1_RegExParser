@@ -71,7 +71,7 @@ public class GUI extends JPanel {
         outPutFile.addActionListener(new OutputFileActionListener());
         buttonPanel.add(outPutFile);
 
-        jInputPanel.add(buttonPanel);
+        this.add(buttonPanel);
 
         //Tabs
         tabbedPane = new JTabbedPane();
