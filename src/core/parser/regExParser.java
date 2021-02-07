@@ -34,8 +34,7 @@ public class regExParser extends Parser{
         Token current = tokens.get(super.index);
         if(lookaheadToken != null) {
             if(current.getType() == TokenType.REJECT || current.getType() == TokenType.RIGHT_PAR || current.getType() == TokenType.UNION){
-                super.parseEvalString = "REJECTED";
-                super.parseEval = false;
+                reject();
             }
             else if(current.getType() == TokenType.LEFT_PAR){ //open paren
                 super.openParen();
@@ -70,6 +69,11 @@ public class regExParser extends Parser{
                         reject();
                     }
                 }
+            }
+        }
+        else{
+            if(current.getType() == TokenType.REJECT || current.getType() == TokenType.RIGHT_PAR || current.getType() == TokenType.UNION){
+                reject();
             }
         }
     }
