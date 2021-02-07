@@ -33,7 +33,17 @@ public class regExParser extends Parser{
         Token lookaheadToken = lookahead(super.index);
         Token current = tokens.get(super.index);
         if(lookaheadToken != null) {
-            if(current.getType() == TokenType.REJECT || current.getType() == TokenType.RIGHT_PAR || current.getType() == TokenType.UNION){
+            if(
+                current.getType() == TokenType.REJECT ||
+                current.getType() == TokenType.RIGHT_PAR ||
+                current.getType() == TokenType.UNION ||
+                current.getType() == TokenType.OPTIONAL ||
+                current.getType() == TokenType.ZERO_OR_MANY ||
+                current.getType() == TokenType.ONE_OR_MANY
+            ){
+                reject();
+            }
+            else if(current.getType() == TokenType.EPSILON && lookaheadToken != null){
                 reject();
             }
             else if(current.getType() == TokenType.LEFT_PAR){ //open paren
@@ -72,7 +82,14 @@ public class regExParser extends Parser{
             }
         }
         else{
-            if(current.getType() == TokenType.REJECT || current.getType() == TokenType.RIGHT_PAR || current.getType() == TokenType.UNION){
+            if(
+                current.getType() == TokenType.REJECT ||
+                current.getType() == TokenType.RIGHT_PAR ||
+                current.getType() == TokenType.UNION ||
+                current.getType() == TokenType.OPTIONAL ||
+                current.getType() == TokenType.ZERO_OR_MANY ||
+                current.getType() == TokenType.ONE_OR_MANY
+            ){
                 reject();
             }
         }
