@@ -23,4 +23,14 @@ public class LexAnTabPanel extends JPanel implements GUIInterface {
     public void clear() {
         jTextArea.setText(null);
     }
+
+    @Override
+    public void getText() {
+
+    }
+
+    @Override
+    public void setText() {
+
+    }
 }

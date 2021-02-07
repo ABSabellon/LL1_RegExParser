@@ -4,9 +4,6 @@ import ui.util.GUIInterface;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.InputEvent;
-import java.awt.event.KeyEvent;
-
 
 
 public class InputFields extends JPanel implements GUIInterface {
@@ -29,5 +26,20 @@ public class InputFields extends JPanel implements GUIInterface {
     @Override
     public void clear() {
         jTextArea.setText(null);
+    }
+
+    @Override
+    public void getText() {
+        jTextArea.getText();
+    }
+
+    @Override
+    public void setText() {
+
+    }
+
+    public byte[] getTextWithByte(){
+        jTextArea.getText().getBytes();
+        return new byte[0];
     }
 }

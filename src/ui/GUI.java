@@ -13,6 +13,9 @@ import java.io.IOException;
 import ui.fields.InputFields;
 import ui.fields.LexAnTabPanel;
 import ui.fields.ParserTabPanel;
+import ui.util.FileUtil;
+import ui.util.GUIMenu;
+import ui.util.GUIMenuInterFace;
 
 import javax.swing.*;
 
@@ -59,6 +62,57 @@ public class GUI extends JPanel {
 
         tabbedPane.add("Parser", parserTab);
         this.add(tabbedPane);
+
+        GUIMenu guiMenuBar = new GUIMenu();
+        frame.setMenuBar(guiMenuBar);
+
+        guiMenuBar.addMenuFileListener(new GUIMenuInterFace.MenuFileListener() {
+            @Override
+            public void setNewFileListener(ActionEvent event) {
+                inputTextPanel.clear();
+            }
+
+            @Override
+            public void setOpenFileListener(ActionEvent event) {
+
+            }
+
+            @Override
+            public void setSaveFileListener(ActionEvent event) {
+                //check if default name is duplicated
+                File file = new File("Output.txt");
+                while (FileUtil.isDuplicate(file, fileChooser.getCurrentDirectory())) {
+                    String tem = file.getName().split("\\.")[0];
+                    file = new File("Output" + (Integer.parseInt(tem.substring(8, tem.length())) + 1) + ".txt");
+                }
+                fileChooser.setSelectedFile(file);
+
+                int i = fileChooser.showSaveDialog(GUI.this);
+                if (i == JFileChooser.APPROVE_OPTION) {
+                    File f = fileChooser.getSelectedFile();
+                    //check if the file is already existed
+                    try {
+                        FileOutputStream out = new FileOutputStream(f);
+                        out.write(inputTextPanel.getTextWithByte());
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                }
+
+            }
+
+            @Override
+            public void setExitListener(ActionEvent event) {
+                inputTextPanel.clear();
+            }
+        });
+
+        guiMenuBar.addMenuHelpListener(new GUIMenuInterFace.MenuHelpListener() {
+            @Override
+            public void setAboutListener(ActionEvent event) {
+                JOptionPane.showMessageDialog(GUI.this, "@Author: Sabellon, Aileen \n@Date 2021-02-05", "CMPILER: REGEX PARSER", INFORMATION_MESSAGE);
+            }
+        });
 
     }
 

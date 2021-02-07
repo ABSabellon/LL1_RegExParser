@@ -1,4 +1,4 @@
 .idea/
-target/
+out/
 **/desktop.ini
 LL1_RegExParser.iml
