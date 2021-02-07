@@ -4,6 +4,7 @@ package core.lexer;
  * A scanned token from the input string. Holds the token type, the input lexeme, and its value (if any)
  */
 public class Token {
+    public static final int EOF_TYPE = -1;
     /**
      * Type of token
      */
