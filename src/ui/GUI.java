@@ -63,7 +63,7 @@ public class GUI extends JPanel {
         //Input
         jInputPanel = new JPanel();
         jInputPanel.setLayout(new BoxLayout(jInputPanel, BoxLayout.Y_AXIS));
-        this.add(inputTextPanel);
+        jInputPanel.add(inputTextPanel);
 
         //Buttons
         buttonPanel = new JPanel();
@@ -76,8 +76,9 @@ public class GUI extends JPanel {
         outPutFile = new JButton("Create output file");
         outPutFile.addActionListener(new OutputFileActionListener());
         buttonPanel.add(outPutFile);
+        jInputPanel.add(buttonPanel);
 
-        this.add(buttonPanel);
+        this.add(jInputPanel);
 
         //Tabs
         tabbedPane = new JTabbedPane();
