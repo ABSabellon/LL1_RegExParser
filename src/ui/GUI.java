@@ -15,7 +15,7 @@ import core.exception.ParseException;
 import core.lexer.Scanner;
 import core.lexer.Token;
 import core.lexer.TokenType;
-import core.parser.Parser;
+import core.parser.regExParser;
 import ui.fields.InputFields;
 import ui.fields.LexAnTabPanel;
 import ui.fields.ParserTabPanel;
@@ -184,6 +184,7 @@ public class GUI extends JPanel {
             for(String line: lines){
                 Scanner scanner = new Scanner(line);
                 content += line;
+                parseContent += line;
                 List<Token> scannedTokens = null;
 
                 try {
@@ -192,8 +193,8 @@ public class GUI extends JPanel {
                         if(scannedTokens != null){
                             if(scannedTokens.size() > 0){
                                 content += " - ";
-                                Parser parser = new Parser(scannedTokens);
-                                parseContent += parser.getParsedString();
+                                regExParser parser = new regExParser(scannedTokens);
+                                parseContent += " - " + parser.parseEval();
                                 for(Token token: scannedTokens) {
                                     if(token.getType() != TokenType.DELIMITER){
                                         content = content + token.getType() + " ";
@@ -211,6 +212,7 @@ public class GUI extends JPanel {
                 }
 
                 content += "\n";
+                parseContent += "\n";
             }
             lexAnTab.setText(content);
             parserTab.setText(parseContent);
