@@ -6,21 +6,19 @@
 ####Follows the LL(1) Parser Grammar:
 
 ``` Java
-  start -> term 
-         | EPSILON 
-         | LP start RP 
-         | oper
-  term ->  ALPHANUM oper
-  oper -> OPERATIONS prod 
-         | withUnion 
-         | ε
-  withUnion -> UNION factor
+  start -> start 
+        | LP start RP 
+        | oper
+  chars ->  ALPHANUM oper
+  oper -> OPERATIONS more
+        | comb 
+        | ε
+  comb -> UNION factor
   factor -> start 
-         | EPSILON
-  prod-> start 
-          | withUnion 
-          | ε
-  
+        | EPSILON
+  more-> start
+        | comb
+        | ε
   Lexers:
   
   ALPHANUM -> [a-z0-9]
@@ -34,24 +32,25 @@
 ####First Set
 
 ``` Java
-first(start) -> { [a-z0-9], ['?', '*', '+'] , 'E', '(',  'U', ε }
-first(term) -> { [a-z0-9] }
-first(oper) -> { ['?', '*', '+'], 'U', ε }
-first(withUnion) -> { 'U' }
-first(factor) -> { [a-z0-9]. 'E', '(', ['?', '*', '+'], ε}
-first(prod) -> { [a-z0-9]., 'E', '(', 'U', ε}
+first(start) -> { }
+first(chars) -> { }
+first(oper) -> { }
+first(comb) -> { }
+first(factor) -> { }
+first(more) -> { }
 
     
 ```
 #### Follow Set
 
 ``` Java
-follow(start) -> { ')', $}
-follow(term) -> { ')', $ } 
-follow(oper) -> { ')', $ } 
-follow(withUnion) -> { ')', $ } 
-follow(factor) -> { ')', $ } 
-follow(prod) -> { ')', $ } 
+follow(start) -> { }
+follow(chars) -> { }
+follow(oper) -> { }
+follow(comb) -> { }
+follow(factor) -> { }
+follow(more) -> { }
+
     
 ```
 
@@ -59,5 +58,5 @@ follow(prod) -> { ')', $ }
 
 |           | [a-z0-9]      |['?', '*', '+'] |        'E'      |        'U'      |        '('      |        ')'      |         ε       |         $       |
 | --------- |:-------------:|:--------------:|:---------------:|:---------------:|:---------------:|:---------------:|:---------------:| ---------------:|
-| start     | start -> term |  start -> term | start -> EPSILON|  start -> oper  |
+| start     | start -> term |  start -> term | start -> EPSILON|  start -> oper  |        '('      |        ')'      |         ε       |         $       |
 

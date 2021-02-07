@@ -1,8 +1,6 @@
 package core.parser;
 
 public class Parser {
-/*
-    protected TokenSource input = null;
 
     protected Token[] tokens = null;
 
@@ -48,6 +46,6 @@ public class Parser {
                     token().getLexeme());
         }
         consume();
-    }*/
+    }
 
 }
