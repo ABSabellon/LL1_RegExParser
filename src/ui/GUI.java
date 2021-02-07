@@ -183,8 +183,8 @@ public class GUI extends JPanel {
 
             for(String line: lines){
                 Scanner scanner = new Scanner(line);
-                content += line;
-                parseContent += line;
+                content += line.trim();
+                parseContent += line.trim();
                 List<Token> scannedTokens = null;
 
                 try {
@@ -193,7 +193,7 @@ public class GUI extends JPanel {
                         if(scannedTokens != null){
                             if(scannedTokens.size() > 0){
                                 content += " - ";
-                                regExParser parser = new regExParser(line);
+                                regExParser parser = new regExParser(scannedTokens);
                                 parseContent += " - " + parser.parseEvalString;
                                 for(Token token: scannedTokens) {
                                     if(token.getType() != TokenType.DELIMITER){
