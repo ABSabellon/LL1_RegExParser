@@ -8,6 +8,7 @@ import java.util.List;
 
 public class Parser {
     protected ArrayList<Token> tokens = new ArrayList<Token>();
+    private int parenthesisStack = 0;
 
     public Parser(List<Token> scannedTokens){
         for(Token token: scannedTokens){
@@ -26,7 +27,22 @@ public class Parser {
     }
 
     private String parseEval(){
-        return "REJECT";
+        for(Token token : this.tokens){
+            if(token.getType() == TokenType.REJECT){
+                return "REJECT";
+            }
+            else if(token.getType() == TokenType.LEFT_PAR){
+                parenthesisStack++;
+            }
+            else if(token.getType() == TokenType.RIGHT_PAR){
+                parenthesisStack--;
+            }
+        }
+
+        if(parenthesisStack != 0){
+            return "REJECT";
+        }
+        return "ACCEPT";
     }
 
 //    protected void initTokenBuffer(TokenSource input) throws IOException {
