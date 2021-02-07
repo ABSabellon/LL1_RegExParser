@@ -12,10 +12,8 @@ public class Parser {
 
     protected TokenSource input = null;
 
-    /** Buffer of all tokens including EOF */
     protected Token[] tokens = null;
 
-    /** Pointer into tokens buffer; p=-1 means uninitialized */
     protected int p = -1;
 
     public Parser(TokenSource input) throws IOException {

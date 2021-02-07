@@ -1,5 +1,6 @@
 package core.parser;
 
+import core.exception.TokenSource;
 import java.io.IOException;
 
     /**
@@ -20,6 +21,9 @@ public class regExParser extends Parser{
 
     /** start -> term | EPSILON | LP start | oper */
     public void start(){
+        if(lookahead() == ){
+
+        }
         term();
 
     }
