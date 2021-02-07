@@ -6,9 +6,10 @@
 ####Follows the LL(1) Parser Grammar:
 
 ``` Java
-  start -> start 
-        | LP start RP 
+  start -> chars
         | oper
+        | LP start RP 
+        | EPSILON
   chars ->  ALPHANUM oper
   oper -> OPERATIONS more
         | comb 
@@ -23,7 +24,7 @@
   
   ALPHANUM -> [a-z0-9]
   EPSILON -> 'E'
-  OPERATIONS -> '?'| '*'| '+'
+  OPERATIONS -> [ '?'| '*'| '+' ]
   UNION -> 'U'
   LP -> '('
   RP -> ')'  
@@ -32,24 +33,24 @@
 ####First Set
 
 ``` Java
-first(start) -> { }
-first(chars) -> { }
-first(oper) -> { }
-first(comb) -> { }
-first(factor) -> { }
-first(more) -> { }
+first(start) -> { [a-z0-9], [ '?'| '*'| '+' ],'U', 'E', '(', ε }
+first(chars) -> { [a-z0-9] }
+first(oper) -> { [ '?'| '*'| '+' ],'U', ε }
+first(comb) -> { 'U' }
+first(factor) -> { [a-z0-9], [ '?'| '*'| '+' ],'U','(', ε, 'E' }
+first(more) -> { [a-z0-9], [ '?'| '*'| '+' ],'U', 'E', '(', ε  }
 
     
 ```
 #### Follow Set
 
 ``` Java
-follow(start) -> { }
-follow(chars) -> { }
-follow(oper) -> { }
-follow(comb) -> { }
-follow(factor) -> { }
-follow(more) -> { }
+follow(start) -> { ')', $ }
+follow(chars) -> { ')', $  }
+follow(oper) -> { ')', $  }
+follow(comb) -> { ')', $  }
+follow(factor) -> { ')', $  }
+follow(more) -> { ')', $  }
 
     
 ```
@@ -58,5 +59,10 @@ follow(more) -> { }
 
 |           | [a-z0-9]      |['?', '*', '+'] |        'E'      |        'U'      |        '('      |        ')'      |         ε       |         $       |
 | --------- |:-------------:|:--------------:|:---------------:|:---------------:|:---------------:|:---------------:|:---------------:| ---------------:|
-| start     | start -> term |  start -> term | start -> EPSILON|  start -> oper  |        '('      |        ')'      |         ε       |         $       |
-
+| start     | start -> chars|  start -> oper | start -> EPSILON|  start -> oper  |start -> LP start RP|       ERROR     |  start -> oper  |         ε       |
+| chars     | chars -> ALPHANUM OPER|  ERROR | ERROR|  ERROR   |     ERROR       |      ERROR      |       ERROR     |         ε       |
+| oper      |     ERROR     |oper -> OPERATIONS|     ERROR     |  oper -> UNION  |      ERROR      |       ERROR     |     oper -> ε   |         ε       |
+| comb      |     ERROR     |      ERROR     |       ERROR     |  comb -> UNION  |      ERROR      |       ERROR     |       ERROR     |         ε       |
+| factor    |factor -> chars| factor -> oper |factor -> EPSILON| factor -> oper  |factor-> LP start RP|    ERROR     |  factor -> oper |         ε       |
+| more      | more -> chars |  more -> oper  | more -> EPSILON |   more -> oper  |more-> LP start RP|      ERROR     |   more -> oper  |         ε       |
+ 
