@@ -34,8 +34,8 @@ public class InputFields extends JPanel implements GUIInterface {
     }
 
     @Override
-    public void setText() {
-
+    public void setText(String s) {
+        jTextArea.setText(s);
     }
 
     public byte[] getTextWithByte(){

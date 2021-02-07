@@ -13,9 +13,11 @@ import java.io.IOException;
 import ui.fields.InputFields;
 import ui.fields.LexAnTabPanel;
 import ui.fields.ParserTabPanel;
+
 import ui.util.FileUtil;
 import ui.util.GUIMenu;
 import ui.util.GUIMenuInterFace;
+import ui.util.TxtFilter;
 
 import javax.swing.*;
 
@@ -26,6 +28,9 @@ public class GUI extends JPanel {
 
     private JPanel jInputPanel;
     private JPanel buttonPanel;
+
+    private JButton run;
+    private JButton outPutFile;
 
     private JTabbedPane tabbedPane;
 
@@ -44,7 +49,7 @@ public class GUI extends JPanel {
         lexAnTab = new LexAnTabPanel();
         parserTab = new ParserTabPanel();
 
-        fileChooser = new JFileChooser("./etc/TestCases");
+        fileChooser = new JFileChooser("./etc/txtFiles");
 
         this.frame = frame;
         this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
@@ -54,7 +59,21 @@ public class GUI extends JPanel {
         jInputPanel.setLayout(new BoxLayout(jInputPanel, BoxLayout.Y_AXIS));
         this.add(inputTextPanel);
 
-        //tabbed
+        //Buttons
+        buttonPanel = new JPanel();
+        buttonPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+
+        run = new JButton("Inspect Tree");
+        run.addActionListener(new RunActionListener());
+        buttonPanel.add(run);
+
+        outPutFile = new JButton("Run");
+        outPutFile.addActionListener(new OutputFileActionListener());
+        buttonPanel.add(outPutFile);
+
+        jInputPanel.add(buttonPanel);
+
+        //Tabs
         tabbedPane = new JTabbedPane();
 
         tabbedPane.add("Token Recognizer ", lexAnTab);
@@ -74,7 +93,24 @@ public class GUI extends JPanel {
 
             @Override
             public void setOpenFileListener(ActionEvent event) {
+                TxtFilter txtFilter = new TxtFilter();
+                fileChooser.setFileFilter(txtFilter);
+                fileChooser.setAcceptAllFileFilterUsed(false);
+                int returnValue = fileChooser.showOpenDialog(GUI.this);
+                if (returnValue == JFileChooser.APPROVE_OPTION) {
+                    if (txtFilter.getExtension(fileChooser.getSelectedFile()).equals("txt")) {
+                        try {
+                            lexAnTab.clear();
+                            parserTab.clear();
 
+                            currentContent = readCodeToString(fileChooser.getSelectedFile().getPath());
+                            currentContent+= "\n";
+                            inputTextPanel.setText(currentContent);
+                        } catch (IOException e1) {
+
+                        }
+                    }
+                }
             }
 
             @Override
@@ -103,7 +139,7 @@ public class GUI extends JPanel {
 
             @Override
             public void setExitListener(ActionEvent event) {
-                inputTextPanel.clear();
+                System.exit(0);
             }
         });
 
@@ -131,6 +167,14 @@ public class GUI extends JPanel {
     }
 
     private class RunActionListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+        }
+    }
+
+    private class OutputFileActionListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {

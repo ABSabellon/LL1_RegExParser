@@ -26,12 +26,17 @@ public class ParserTabPanel extends JPanel implements GUIInterface {
 
     @Override
     public void getText() {
-
+        jTextArea.getText();
     }
 
     @Override
-    public void setText() {
+    public void setText(String s) {
+        jTextArea.setText(s);
+    }
 
+    public byte[] getTextWithByte(){
+        jTextArea.getText().getBytes();
+        return new byte[0];
     }
 
 }

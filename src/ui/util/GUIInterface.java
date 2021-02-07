@@ -4,5 +4,5 @@ public interface GUIInterface {
 
     void clear();
     void getText();
-    void setText();
+    void setText(String s);
 }
