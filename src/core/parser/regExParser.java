@@ -3,12 +3,12 @@ package core.parser;
 /**
      *  This parser follows LL(1) Parser:
      *
-     * start -> term | EPSILON | LP start | oper
-     * term ->  ALPHANUM oper
-     * oper -> OPERATIONS prod | withUnion | ε
-     * withUnion -> UNION factor
+     * start -> chars | oper | LP start RP | EPSILON
+     * chars ->  ALPHANUM oper
+     * oper -> OPERATIONS more | comb | ε
+     * comb -> UNION factor
      * factor -> start | EPSILON
-     * prod-> start | withUnion | ε
+     * more-> start | comb | ε
      */
 
 public class regExParser extends Parser{
@@ -16,7 +16,7 @@ public class regExParser extends Parser{
         super();
     }
 
-    //** start -> term | EPSILON | LP start | oper *//
+    //** start -> chars | oper | LP start RP | EPSILON *//
     public void start(){
 //        if(lookahead() == ){
 //
@@ -24,19 +24,19 @@ public class regExParser extends Parser{
 //        term();
 
     }
-    //** term ->  ALPHANUM oper *//*
-    public void term(){
+    //** chars ->  ALPHANUM oper *//*
+    public void chars(){
        //* if(lookahead() == token.ALPHANUM){
 
     }
 
-    //** oper -> OPERATIONS prod | withUnion | ε *//*
+    //** oper -> OPERATIONS more | comb | ε *//*
     public void oper(){
 
     }
 
-    //** withUnion -> UNION factor *//*
-    public void withUnion(){
+    //** comb -> UNION factor *//*
+    public void comb(){
 
     }
 
@@ -45,8 +45,8 @@ public class regExParser extends Parser{
 
     }
 
-    //** prod-> start | withUnion | ε *//*
-    public void prod(){
+    //** more-> start | comb | ε *//*
+    public void more(){
 
     }
 
