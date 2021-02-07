@@ -183,8 +183,8 @@ public class GUI extends JPanel {
 
             for(String line: lines){
                 Scanner scanner = new Scanner(line);
-                content += line;
-                parseContent += line;
+                content += line.trim();
+                parseContent += line.trim();
                 List<Token> scannedTokens = null;
 
                 try {

@@ -11,6 +11,7 @@ public class Parser {
     private int parenthesisStack = 0;
     public boolean parseEval = true;
     public String parseEvalString = "ACCEPTED";
+    public static int index;
 
     public Parser(List<Token> scannedTokens){
         for(Token token: scannedTokens){
@@ -18,14 +19,15 @@ public class Parser {
                 tokens.add(token);
             }
         }
+        index = 0;
     }
 
     public Token lookahead(int index){
-        if((index+1) > tokens.size()){
-            return null;
+        if((index+1) < tokens.size()){
+            return tokens.get(index+1);
         }
         else{
-            return tokens.get(index+1);
+            return null;
         }
     }
 
