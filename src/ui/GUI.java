@@ -16,6 +16,7 @@ import core.exception.UnknownCharacterException;
 import core.lexer.Scanner;
 import core.lexer.Token;
 import core.lexer.TokenType;
+import core.parser.regExParser;
 import ui.fields.InputFields;
 import ui.fields.LexAnTabPanel;
 import ui.fields.ParserTabPanel;
@@ -179,6 +180,8 @@ public class GUI extends JPanel {
         public void actionPerformed(ActionEvent e) {
             String[] lines = inputTextPanel.getText().split(System.getProperty("line.separator"));
             String content = "";
+            regExParser parser = new regExParser();
+
             for(String line: lines){
                 Scanner scanner = new Scanner(line);
                 content += line;
@@ -195,6 +198,7 @@ public class GUI extends JPanel {
                     if(scannedTokens != null){
                         if(scannedTokens.size() > 0){
                             content += " - ";
+                            parser.addTokenLine(scannedTokens);
                             for(Token token: scannedTokens) {
                                 if(token.getType() != TokenType.DELIMITER){
                                     content = content + token.getType() + " ";
@@ -210,6 +214,7 @@ public class GUI extends JPanel {
                 System.out.println();
                 content += "\n";
             }
+            parser.printList();
             lexAnTab.setText(content);
         }
     }

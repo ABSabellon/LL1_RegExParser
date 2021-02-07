@@ -15,16 +15,16 @@ import java.io.IOException;
      */
 
 public class regExParser extends Parser{
-        public ExprParser(TokenSource input) throws IOException {
-            super(input);
-        }
+    public regExParser() {
+        super();
+    }
 
     /** start -> term | EPSILON | LP start | oper */
     public void start(){
-        if(lookahead() == ){
-
-        }
-        term();
+//        if(lookahead() == ){
+//
+//        }
+//        term();
 
     }
     /** term ->  ALPHANUM oper */
