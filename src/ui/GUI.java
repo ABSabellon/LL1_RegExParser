@@ -15,7 +15,7 @@ import core.exception.ParseException;
 import core.lexer.Scanner;
 import core.lexer.Token;
 import core.lexer.TokenType;
-import core.parser.regExParser;
+import core.parser.Parser;
 import ui.fields.InputFields;
 import ui.fields.LexAnTabPanel;
 import ui.fields.ParserTabPanel;
@@ -179,7 +179,7 @@ public class GUI extends JPanel {
         public void actionPerformed(ActionEvent e) {
             String[] lines = inputTextPanel.getText().split(System.getProperty("line.separator"));
             String content = "";
-            regExParser parser = new regExParser();
+            String parseContent = "";
 
             for(String line: lines){
                 Scanner scanner = new Scanner(line);
@@ -188,30 +188,33 @@ public class GUI extends JPanel {
 
                 try {
                     scannedTokens = scanner.scanTokens();
-                }
-                catch(Exception err){
-                }
-
-                try {
-                    if(scannedTokens != null){
-                        if(scannedTokens.size() > 0){
-                            content += " - ";
-                            parser.addTokenLine(scannedTokens);
-                            for(Token token: scannedTokens) {
-                                if(token.getType() != TokenType.DELIMITER){
-                                    content = content + token.getType() + " ";
+                    try {
+                        if(scannedTokens != null){
+                            if(scannedTokens.size() > 0){
+                                content += " - ";
+                                Parser parser = new Parser(scannedTokens);
+                                parseContent += parser.getParsedString();
+                                for(Token token: scannedTokens) {
+                                    if(token.getType() != TokenType.DELIMITER){
+                                        content = content + token.getType() + " ";
+                                    }
                                 }
                             }
                         }
                     }
+                    catch(ParseException err){
+                        content += " - " + err.getMessage();
+                    }
                 }
-                catch(ParseException err){
-                    content += " - " + err.getMessage();
+                catch(Exception err){
+                    err.printStackTrace();
                 }
+
                 content += "\n";
             }
-            parser.printList();
             lexAnTab.setText(content);
+            parserTab.setText(parseContent);
+
         }
     }
 

@@ -7,26 +7,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Parser {
-    protected ArrayList<ArrayList<Token>> lines;
+    protected ArrayList<Token> tokens = new ArrayList<Token>();
 
-    public Parser(){
-        lines = new ArrayList<ArrayList<Token>>();
-    }
-
-    public void addTokenLine(List<Token> scannedTokens) {
-        ArrayList<Token> noDelimiters = new ArrayList<Token>();
+    public Parser(List<Token> scannedTokens){
         for(Token token: scannedTokens){
             if(token.getType() != TokenType.DELIMITER){
-                noDelimiters.add(token);
+                tokens.add(token);
             }
         }
-        this.lines.add(noDelimiters);
+    }
+    public String getParsedString(){
+        String parsed = "";
+        for(Token token : this.tokens){
+            parsed = parsed + token.getType() + " ";
+        }
+        parsed = parsed + "- " + this.parseEval() + "\n";
+        return parsed;
     }
 
-    public void printList(){
-        for(ArrayList<Token> line : lines){
-            System.out.println(line);
-        }
+    private String parseEval(){
+        return "REJECT";
     }
 
 //    protected void initTokenBuffer(TokenSource input) throws IOException {
