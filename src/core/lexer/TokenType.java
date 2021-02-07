@@ -5,7 +5,7 @@ public enum TokenType {
     OPTIONAL,
     ZERO_OR_MANY,
     ONE_OR_MANY,
-    EMPTY,
+    EPSILON,
     UNION,
     LEFT_PAR,
     RIGHT_PAR,
