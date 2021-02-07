@@ -1,2 +1,1 @@
-E a a a
-E
+( a b * c * U b ? ? )

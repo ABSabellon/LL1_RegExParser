@@ -46,9 +46,6 @@ public class regExParser extends Parser{
             else if(current.getType() == TokenType.EPSILON && lookaheadToken != null){
                 reject();
             }
-            else if(current.getType() == TokenType.LEFT_PAR){ //open paren
-                super.openParen();
-            }
             else if(current.getType() != TokenType.EPSILON){ //E
                 if(lookaheadToken.getType() == TokenType.ALPHANUM){
                     super.index++;
@@ -109,18 +106,20 @@ public class regExParser extends Parser{
     public void oper(){ //state 2
         Token lookaheadToken = lookahead(super.index);
         if(lookaheadToken != null) {
-            if(
-                lookaheadToken.getType() == TokenType.OPTIONAL ||
-                lookaheadToken.getType() == TokenType.ZERO_OR_MANY ||
-                lookaheadToken.getType() == TokenType.ONE_OR_MANY ||
-                lookaheadToken.getType() == TokenType.ALPHANUM
-            ) {
+            if(lookaheadToken.getType() == TokenType.ALPHANUM || lookaheadToken.getType() == TokenType.LEFT_PAR) {
                 super.index++;
                 more();
             }
             else if(lookaheadToken.getType() == TokenType.UNION){
                 super.index++;
                 comb();
+            }
+            else if(
+                lookaheadToken.getType() == TokenType.OPTIONAL ||
+                lookaheadToken.getType() == TokenType.ZERO_OR_MANY ||
+                lookaheadToken.getType() == TokenType.ONE_OR_MANY
+            ){
+                reject();
             }
             else {
                 reject();
