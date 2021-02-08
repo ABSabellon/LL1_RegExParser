@@ -58,6 +58,32 @@ public class regExParser extends Parser {
                     reject();
                 }
             }
+            else { //has next token
+                if(lookaheadToken.getType() == TokenType.ALPHANUM){
+                    super.index++;
+                    chars();
+                }
+                else if(
+                    lookaheadToken.getType() == TokenType.OPTIONAL ||
+                    lookaheadToken.getType() == TokenType.ZERO_OR_MANY ||
+                    lookaheadToken.getType() == TokenType.ONE_OR_MANY
+                ){
+                    super.index++;
+                    oper();
+                }
+                else if(lookaheadToken.getType() == TokenType.UNION){
+                    super.index++;
+                    chars();
+                }
+                else if(lookaheadToken.getType() == TokenType.LEFT_PAR){
+                    super.index++;
+                    start();
+                }
+                else if(lookaheadToken.getType() == TokenType.RIGHT_PAR){
+                    super.index++;
+                    oper();
+                }
+            }
 
 //            if(lookaheadToken != null) {
 //                if(
@@ -128,6 +154,14 @@ public class regExParser extends Parser {
                     reject();
                 }
             }
+            else { //has next token
+                if (lookaheadToken.getType() == TokenType.ALPHANUM) {
+                    super.index++;
+                    oper();
+                } else {
+                    reject();
+                }
+            }
 
 //            if(lookaheadToken != null) {
 //                if (lookaheadToken.getType() == TokenType.ALPHANUM) {
@@ -149,6 +183,26 @@ public class regExParser extends Parser {
         //if last token
         if(lookaheadToken == null){
             if(!isAFinalState) {
+                reject();
+            }
+        }
+        else { //has next token
+            if(lookaheadToken.getType() == TokenType.ALPHANUM || lookaheadToken.getType() == TokenType.LEFT_PAR) {
+                super.index++;
+                more();
+            }
+            else if(lookaheadToken.getType() == TokenType.UNION){
+                super.index++;
+                comb();
+            }
+            else if(
+                lookaheadToken.getType() == TokenType.OPTIONAL ||
+                lookaheadToken.getType() == TokenType.ZERO_OR_MANY ||
+                lookaheadToken.getType() == TokenType.ONE_OR_MANY
+            ){
+                reject();
+            }
+            else {
                 reject();
             }
         }
@@ -187,6 +241,15 @@ public class regExParser extends Parser {
                 reject();
             }
         }
+        else { //has next token
+            if (lookaheadToken.getType() == TokenType.UNION) {
+                super.index++;
+                factor();
+            }
+            else {
+                reject();
+            }
+        }
 
 //        if(lookaheadToken != null) {
 //            if (lookaheadToken.getType() == TokenType.UNION) {
@@ -211,6 +274,10 @@ public class regExParser extends Parser {
                 reject();
             }
         }
+        else { //has next token
+            super.index++;
+            start();
+        }
 
 //        if(lookaheadToken != null) {
 //            super.index++;
@@ -228,6 +295,16 @@ public class regExParser extends Parser {
         if(lookaheadToken == null){
             if(!isAFinalState) {
                 reject();
+            }
+        }
+        else { //has next token
+            if(lookaheadToken.getType() == TokenType.UNION){
+                super.index++;
+                comb();
+            }
+            else {
+                super.index++;
+                start();
             }
         }
 
