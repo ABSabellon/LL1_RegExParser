@@ -5,13 +5,14 @@ import core.lexer.TokenType;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 public class Parser {
     protected ArrayList<Token> tokens = new ArrayList<Token>();
-    private int parenthesisStack = 0;
     public boolean parseEval = true;
     public String parseEvalString = "ACCEPTED";
     public int index;
+    private Stack<Token> parenthesisStack;
 
     public Parser(List<Token> scannedTokens){
         for(Token token: scannedTokens){
@@ -19,6 +20,7 @@ public class Parser {
                 tokens.add(token);
             }
         }
+        parenthesisStack = new Stack<Token>();
         index = 0;
     }
 
@@ -40,15 +42,16 @@ public class Parser {
         }
     }
 
-    public void openParen(){
-        parenthesisStack++;
-    }
-
-    public void closeParen(){
-        parenthesisStack--;
+    public void handleParen(Token tk){
+        if(tk.getType() == TokenType.LEFT_PAR) {
+            parenthesisStack.push(tk);
+        }
+        if(tk.getType() == TokenType.RIGHT_PAR) {
+            parenthesisStack.pop();
+        }
     }
 
     public boolean isParenBalance(){
-        return parenthesisStack == 0;
+        return parenthesisStack.empty();
     }
 }

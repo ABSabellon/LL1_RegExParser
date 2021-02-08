@@ -34,6 +34,7 @@ public class regExParser extends Parser {
             Token lookaheadToken = lookahead(super.index); //get next token
             Token current = tokens.get(super.index); //get current token
             final boolean isAFinalState = true; //start is a final state
+            handleParen(current);
 
             //if first ever token
             if(lookbehind(super.index) == null){
@@ -54,7 +55,7 @@ public class regExParser extends Parser {
             }
             //if last token
             if(lookaheadToken == null){
-                if(!isAFinalState) {
+                if(!isAFinalState || !isParenBalance()) {
                     reject();
                 }
             }
@@ -81,63 +82,9 @@ public class regExParser extends Parser {
                 }
                 else if(lookaheadToken.getType() == TokenType.RIGHT_PAR){
                     super.index++;
-                    oper();
+                    start();
                 }
             }
-
-//            if(lookaheadToken != null) {
-//                if(
-//                    current.getType() == TokenType.REJECT ||
-//                    current.getType() == TokenType.RIGHT_PAR ||
-//                    current.getType() == TokenType.UNION ||
-//                    current.getType() == TokenType.OPTIONAL ||
-//                    current.getType() == TokenType.ZERO_OR_MANY ||
-//                    current.getType() == TokenType.ONE_OR_MANY
-//                ){
-//                    reject();
-//                }
-//                else if(current.getType() == TokenType.EPSILON && lookaheadToken != null){
-//                    reject();
-//                }
-//                else if(current.getType() != TokenType.EPSILON){ //E
-//                    if(lookaheadToken.getType() == TokenType.ALPHANUM){
-//                        super.index++;
-//                        chars();
-//                    }
-//                    else if(
-//                        lookaheadToken.getType() == TokenType.OPTIONAL ||
-//                        lookaheadToken.getType() == TokenType.ZERO_OR_MANY ||
-//                        lookaheadToken.getType() == TokenType.ONE_OR_MANY
-//                    ) {
-//                        super.index++;
-//                        chars();
-//                    }
-//                    else if(lookaheadToken.getType() == TokenType.UNION){
-//                        super.index++;
-//                        chars();
-//                    }
-//                    else if(lookaheadToken.getType() == TokenType.LEFT_PAR){
-//                        super.index++;
-//                        start();
-//                    }
-//                    else if(lookaheadToken.getType() == TokenType.RIGHT_PAR){
-//                        super.index++;
-//                        oper();
-//                    }
-//                }
-//            }
-//            else if(lookbehind(super.index) != null){
-//                if(
-//                    current.getType() == TokenType.REJECT ||
-//                    current.getType() == TokenType.RIGHT_PAR ||
-//                    current.getType() == TokenType.UNION ||
-//                    current.getType() == TokenType.OPTIONAL ||
-//                    current.getType() == TokenType.ZERO_OR_MANY ||
-//                    current.getType() == TokenType.ONE_OR_MANY
-//                ){
-//                    reject();
-//                }
-//            }
         }
     }
 
@@ -147,30 +94,39 @@ public class regExParser extends Parser {
             Token lookaheadToken = lookahead(super.index); //get next token
             Token current = tokens.get(super.index); //get current token
             final boolean isAFinalState = true; //start is a final state
+            handleParen(current);
 
             //if last token
             if(lookaheadToken == null){
-                if(!isAFinalState) {
+                if(!isAFinalState || !isParenBalance()) {
                     reject();
                 }
             }
             else { //has next token
                 if (lookaheadToken.getType() == TokenType.ALPHANUM) {
                     super.index++;
+                    chars();
+                }
+                else if(lookaheadToken.getType() == TokenType.LEFT_PAR || lookaheadToken.getType() == TokenType.RIGHT_PAR){
+                    super.index++;
+                    start();
+                }
+                else if(
+                    lookaheadToken.getType() == TokenType.ZERO_OR_MANY ||
+                    lookaheadToken.getType() == TokenType.ONE_OR_MANY ||
+                    lookaheadToken.getType() == TokenType.OPTIONAL
+                ){
+                    super.index++;
                     oper();
-                } else {
+                }
+                else if(lookaheadToken.getType() == TokenType.UNION){
+                    super.index++;
+                    comb();
+                }
+                else {
                     reject();
                 }
             }
-
-//            if(lookaheadToken != null) {
-//                if (lookaheadToken.getType() == TokenType.ALPHANUM) {
-//                    super.index++;
-//                    oper();
-//                } else {
-//                    reject();
-//                }
-//            }
         }
     }
 
@@ -182,12 +138,15 @@ public class regExParser extends Parser {
 
         //if last token
         if(lookaheadToken == null){
-            if(!isAFinalState) {
+            if(!isAFinalState || !isParenBalance()) {
                 reject();
             }
         }
         else { //has next token
-            if(lookaheadToken.getType() == TokenType.ALPHANUM || lookaheadToken.getType() == TokenType.LEFT_PAR) {
+            if(
+                lookaheadToken.getType() == TokenType.ALPHANUM ||
+                lookaheadToken.getType() == TokenType.LEFT_PAR
+            ) {
                 super.index++;
                 more();
             }
@@ -202,31 +161,14 @@ public class regExParser extends Parser {
             ){
                 reject();
             }
+            else if(lookaheadToken.getType() == TokenType.RIGHT_PAR){
+                super.index++;
+                start();
+            }
             else {
                 reject();
             }
         }
-
-//        if(lookaheadToken != null) {
-//            if(lookaheadToken.getType() == TokenType.ALPHANUM || lookaheadToken.getType() == TokenType.LEFT_PAR) {
-//                super.index++;
-//                more();
-//            }
-//            else if(lookaheadToken.getType() == TokenType.UNION){
-//                super.index++;
-//                comb();
-//            }
-//            else if(
-//                lookaheadToken.getType() == TokenType.OPTIONAL ||
-//                lookaheadToken.getType() == TokenType.ZERO_OR_MANY ||
-//                lookaheadToken.getType() == TokenType.ONE_OR_MANY
-//            ){
-//                reject();
-//            }
-//            else {
-//                reject();
-//            }
-//        }
     }
 
     //** comb -> UNION factor *//*
@@ -237,12 +179,12 @@ public class regExParser extends Parser {
 
         //if last token
         if(lookaheadToken == null){
-            if(!isAFinalState) {
+            if(!isAFinalState || !isParenBalance()) {
                 reject();
             }
         }
         else { //has next token
-            if (lookaheadToken.getType() == TokenType.UNION) {
+            if (lookaheadToken.getType() != TokenType.UNION && lookaheadToken.getType() != TokenType.RIGHT_PAR) {
                 super.index++;
                 factor();
             }
@@ -250,16 +192,6 @@ public class regExParser extends Parser {
                 reject();
             }
         }
-
-//        if(lookaheadToken != null) {
-//            if (lookaheadToken.getType() == TokenType.UNION) {
-//                super.index++;
-//                factor();
-//            }
-//            else {
-//                reject();
-//            }
-//        }
     }
 
     //** factor -> start | EPSILON *//*
@@ -267,22 +199,23 @@ public class regExParser extends Parser {
         Token lookaheadToken = lookahead(super.index); //get next token
         Token current = tokens.get(super.index); //get current token
         final boolean isAFinalState = true; //start is a final state
+        handleParen(current);
 
         //if last token
         if(lookaheadToken == null){
-            if(!isAFinalState) {
+            if(!isAFinalState || !isParenBalance()) {
                 reject();
             }
         }
         else { //has next token
-            super.index++;
-            start();
+            if(current.getType() == TokenType.EPSILON){
+                reject();
+            }
+            else {
+                super.index++;
+                start();
+            }
         }
-
-//        if(lookaheadToken != null) {
-//            super.index++;
-//            start();
-//        }
     }
 
     //** more-> start | comb | ε *//*
@@ -290,10 +223,11 @@ public class regExParser extends Parser {
         Token lookaheadToken = lookahead(super.index); //get next token
         Token current = tokens.get(super.index); //get current token
         final boolean isAFinalState = false; //start is a final state
+        handleParen(current);
 
         //if last token
         if(lookaheadToken == null){
-            if(!isAFinalState) {
+            if(!isAFinalState || !isParenBalance()) {
                 reject();
             }
         }
@@ -307,16 +241,5 @@ public class regExParser extends Parser {
                 start();
             }
         }
-
-//        if(lookaheadToken != null) {
-//            if(lookaheadToken.getType() == TokenType.UNION){
-//                super.index++;
-//                comb();
-//            }
-//            else {
-//                super.index++;
-//                start();
-//            }
-//        }
     }
 }
