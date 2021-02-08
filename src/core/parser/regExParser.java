@@ -60,6 +60,17 @@ public class regExParser extends Parser {
                 }
             }
             else { //has next token
+                if(
+                    current.getType() == TokenType.LEFT_PAR &&
+                    (
+                        lookaheadToken.getType() == TokenType.UNION ||
+                        lookaheadToken.getType() == TokenType.OPTIONAL ||
+                        lookaheadToken.getType() == TokenType.ZERO_OR_MANY ||
+                        lookaheadToken.getType() == TokenType.ONE_OR_MANY
+                    )
+                ){
+                    reject();
+                }
                 if(lookaheadToken.getType() == TokenType.ALPHANUM){
                     super.index++;
                     chars();
