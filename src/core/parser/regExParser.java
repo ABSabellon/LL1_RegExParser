@@ -30,150 +30,153 @@ public class regExParser extends Parser{
 
     //** start -> chars | LP start RP oper | EPSILON *//
     public void start(){ //state 0
-        Token lookaheadToken = lookahead(super.index);
-        Token current = tokens.get(super.index);
-        if(lookaheadToken != null) {
-            if(current.getType() == TokenType.REJECT || current.getType() == TokenType.RIGHT_PAR || current.getType() == TokenType.UNION){
-                reject();
-            }
-            else if(current.getType() == TokenType.LEFT_PAR){ //open paren
-                super.openParen();
-            }
-            else if(current.getType() != TokenType.EPSILON){ //E
-                if(lookaheadToken.getType() == TokenType.ALPHANUM){
-                    super.index++;
-                    chars();
-                }
-                else if(
-                    lookaheadToken.getType() == TokenType.OPTIONAL ||
-                    lookaheadToken.getType() == TokenType.ZERO_OR_MANY ||
-                    lookaheadToken.getType() == TokenType.ONE_OR_MANY
-                ) {
-                    super.index++;
-                    chars();
-                }
-                else if(lookaheadToken.getType() == TokenType.UNION){
-                    super.index++;
-                    chars();
-                }
-                else if(lookaheadToken.getType() == TokenType.LEFT_PAR){
-                    super.index++;
-                    start();
-                }
-                else if(lookaheadToken.getType() == TokenType.RIGHT_PAR){
-                    super.index++;
-                    oper();
-                }
-                else if(lookaheadToken == null){ //no more next tokens
-                    if(!isParenBalance()){
-                        reject();
-                    }
-                }
-            }
-        }
-        else{
-            if(current.getType() == TokenType.REJECT || current.getType() == TokenType.RIGHT_PAR || current.getType() == TokenType.UNION){
-                reject();
-            }
-        }
+        Token lookaheadToken = lookahead(super.index); //get next token
+        Token current = tokens.get(super.index); //get current token
+        final boolean isAFinalState = true; //start is a final state
+
+//        if(lookaheadToken != null) {
+//            if(
+//                current.getType() == TokenType.REJECT ||
+//                current.getType() == TokenType.RIGHT_PAR ||
+//                current.getType() == TokenType.UNION ||
+//                current.getType() == TokenType.OPTIONAL ||
+//                current.getType() == TokenType.ZERO_OR_MANY ||
+//                current.getType() == TokenType.ONE_OR_MANY
+//            ){
+//                reject();
+//            }
+//            else if(current.getType() == TokenType.EPSILON && lookaheadToken != null){
+//                reject();
+//            }
+//            else if(current.getType() != TokenType.EPSILON){ //E
+//                if(lookaheadToken.getType() == TokenType.ALPHANUM){
+//                    super.index++;
+//                    chars();
+//                }
+//                else if(
+//                    lookaheadToken.getType() == TokenType.OPTIONAL ||
+//                    lookaheadToken.getType() == TokenType.ZERO_OR_MANY ||
+//                    lookaheadToken.getType() == TokenType.ONE_OR_MANY
+//                ) {
+//                    super.index++;
+//                    chars();
+//                }
+//                else if(lookaheadToken.getType() == TokenType.UNION){
+//                    super.index++;
+//                    chars();
+//                }
+//                else if(lookaheadToken.getType() == TokenType.LEFT_PAR){
+//                    super.index++;
+//                    start();
+//                }
+//                else if(lookaheadToken.getType() == TokenType.RIGHT_PAR){
+//                    super.index++;
+//                    oper();
+//                }
+//            }
+//        }
+//        else if(lookbehind(super.index) != null){
+//            if(
+//                current.getType() == TokenType.REJECT ||
+//                current.getType() == TokenType.RIGHT_PAR ||
+//                current.getType() == TokenType.UNION ||
+//                current.getType() == TokenType.OPTIONAL ||
+//                current.getType() == TokenType.ZERO_OR_MANY ||
+//                current.getType() == TokenType.ONE_OR_MANY
+//            ){
+//                reject();
+//            }
+//        }
     }
 
     //** chars ->  ALPHANUM oper *//*
     public void chars(){ //state 1
-        Token lookaheadToken = lookahead(super.index);
-        // Token current = tokens.get(super.index); guaranteed alphanum
+        Token lookaheadToken = lookahead(super.index); //get next token
+        Token current = tokens.get(super.index); //get current token
+        final boolean isAFinalState = true; //start is a final state
 
-        if(lookaheadToken != null) {
-            if (lookaheadToken.getType() == TokenType.ALPHANUM) {
-                super.index++;
-                oper();
-            } else if (lookaheadToken == null) { //no more next tokens
-                if (!isParenBalance()) {
-                    reject();
-                }
-            } else {
-                reject();
-            }
-        }
+//        if(lookaheadToken != null) {
+//            if (lookaheadToken.getType() == TokenType.ALPHANUM) {
+//                super.index++;
+//                oper();
+//            } else {
+//                reject();
+//            }
+//        }
     }
 
     //** oper -> OPERATIONS more | comb | ε *//*
     public void oper(){ //state 2
-        Token lookaheadToken = lookahead(super.index);
-        if(lookaheadToken != null) {
-            if(
-                lookaheadToken.getType() == TokenType.OPTIONAL ||
-                lookaheadToken.getType() == TokenType.ZERO_OR_MANY ||
-                lookaheadToken.getType() == TokenType.ONE_OR_MANY ||
-                lookaheadToken.getType() == TokenType.ALPHANUM
-            ) {
-                super.index++;
-                more();
-            }
-            else if(lookaheadToken.getType() == TokenType.UNION){
-                super.index++;
-                comb();
-            }
-            else if(lookaheadToken == null){ //no more next tokens
-                if(!isParenBalance()){
-                    reject();
-                }
-            }
-            else {
-                reject();
-            }
-        }
+        Token lookaheadToken = lookahead(super.index); //get next token
+        Token current = tokens.get(super.index); //get current token
+        final boolean isAFinalState = true; //start is a final state
+
+//        if(lookaheadToken != null) {
+//            if(lookaheadToken.getType() == TokenType.ALPHANUM || lookaheadToken.getType() == TokenType.LEFT_PAR) {
+//                super.index++;
+//                more();
+//            }
+//            else if(lookaheadToken.getType() == TokenType.UNION){
+//                super.index++;
+//                comb();
+//            }
+//            else if(
+//                lookaheadToken.getType() == TokenType.OPTIONAL ||
+//                lookaheadToken.getType() == TokenType.ZERO_OR_MANY ||
+//                lookaheadToken.getType() == TokenType.ONE_OR_MANY
+//            ){
+//                reject();
+//            }
+//            else {
+//                reject();
+//            }
+//        }
     }
 
     //** comb -> UNION factor *//*
     public void comb(){ //state 3
-        Token lookaheadToken = lookahead(super.index);
-        if(lookaheadToken != null) {
-            if (lookaheadToken.getType() == TokenType.UNION) {
-                super.index++;
-                factor();
-            } else if (lookaheadToken == null) { //no more next tokens
-                if (!isParenBalance()) {
-                    reject();
-                }
-            } else {
-                reject();
-            }
-        }
+        Token lookaheadToken = lookahead(super.index); //get next token
+        Token current = tokens.get(super.index); //get current token
+        final boolean isAFinalState = true; //start is a final state
+
+//        if(lookaheadToken != null) {
+//            if (lookaheadToken.getType() == TokenType.UNION) {
+//                super.index++;
+//                factor();
+//            }
+//            else {
+//                reject();
+//            }
+//        }
     }
 
     //** factor -> start | EPSILON *//*
     public void factor(){ //state 4
-        Token lookaheadToken = lookahead(super.index);
-        if(lookaheadToken != null) {
-            if (lookaheadToken == null) { //no more next tokens
-                if (!isParenBalance()) {
-                    reject();
-                }
-            } else {
-                super.index++;
-                start();
-            }
-        }
+        Token lookaheadToken = lookahead(super.index); //get next token
+        Token current = tokens.get(super.index); //get current token
+        final boolean isAFinalState = true; //start is a final state
+
+//        if(lookaheadToken != null) {
+//            super.index++;
+//            start();
+//        }
     }
 
     //** more-> start | comb | ε *//*
     public void more(){ //state 5
-        Token lookaheadToken = lookahead(super.index);
-        if(lookaheadToken != null) {
-            if(lookaheadToken.getType() == TokenType.UNION){
-                super.index++;
-                comb();
-            }
-            else if(lookaheadToken == null){ //no more next tokens
-                if(!isParenBalance()){
-                    reject();
-                }
-            }
-            else {
-                super.index++;
-                start();
-            }
-        }
+        Token lookaheadToken = lookahead(super.index); //get next token
+        Token current = tokens.get(super.index); //get current token
+        final boolean isAFinalState = true; //start is a final state
+
+//        if(lookaheadToken != null) {
+//            if(lookaheadToken.getType() == TokenType.UNION){
+//                super.index++;
+//                comb();
+//            }
+//            else {
+//                super.index++;
+//                start();
+//            }
+//        }
     }
 }

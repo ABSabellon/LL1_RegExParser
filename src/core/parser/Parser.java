@@ -8,6 +8,7 @@ import java.util.List;
 
 public class Parser {
     protected ArrayList<Token> tokens = new ArrayList<Token>();
+    char[] line;
     private int parenthesisStack = 0;
     public boolean parseEval = true;
     public String parseEvalString = "ACCEPTED";
@@ -32,11 +33,11 @@ public class Parser {
     }
 
     public Token lookbehind(int index){
-        if(index <= 0){
-            return null;
-        }
-        else {
+        if(index > 0){
             return tokens.get(index-1);
+        }
+        else{
+            return null;
         }
     }
 
