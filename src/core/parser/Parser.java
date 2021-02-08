@@ -8,11 +8,10 @@ import java.util.List;
 
 public class Parser {
     protected ArrayList<Token> tokens = new ArrayList<Token>();
-    char[] line;
     private int parenthesisStack = 0;
     public boolean parseEval = true;
     public String parseEvalString = "ACCEPTED";
-    public static int index;
+    public int index;
 
     public Parser(List<Token> scannedTokens){
         for(Token token: scannedTokens){
