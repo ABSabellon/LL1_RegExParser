@@ -16,7 +16,7 @@ import java.util.List;
  * more-> start | comb | ε
  */
 
-public class regExParser extends Parser{
+public class regExParser extends Parser {
     public regExParser(List<Token> scannedTokens) {
         super(scannedTokens);
         super.index = 0;
@@ -30,23 +30,36 @@ public class regExParser extends Parser{
 
     //** start -> chars | LP start RP oper | EPSILON *//
     public void start(){ //state 0
-        Token lookaheadToken = lookahead(super.index);
-        Token current = tokens.get(super.index);
-        if(lookaheadToken != null) {
-            if(
-                current.getType() == TokenType.REJECT ||
-                current.getType() == TokenType.RIGHT_PAR ||
-                current.getType() == TokenType.UNION ||
-                current.getType() == TokenType.OPTIONAL ||
-                current.getType() == TokenType.ZERO_OR_MANY ||
-                current.getType() == TokenType.ONE_OR_MANY
-            ){
-                reject();
+        if(super.parseEval){
+            Token lookaheadToken = lookahead(super.index); //get next token
+            Token current = tokens.get(super.index); //get current token
+            final boolean isAFinalState = true; //start is a final state
+            handleParen(current);
+
+            //if first ever token
+            if(lookbehind(super.index) == null){
+                //validate first token
+                if(
+                    current.getType() == TokenType.REJECT ||
+                    current.getType() == TokenType.RIGHT_PAR ||
+                    current.getType() == TokenType.UNION ||
+                    current.getType() == TokenType.OPTIONAL ||
+                    current.getType() == TokenType.ZERO_OR_MANY ||
+                    current.getType() == TokenType.ONE_OR_MANY
+                ){
+                    reject();
+                }
+                else if(current.getType() == TokenType.EPSILON && lookaheadToken != null){
+                    reject();
+                }
             }
-            else if(current.getType() == TokenType.EPSILON && lookaheadToken != null){
-                reject();
+            //if last token
+            if(lookaheadToken == null){
+                if(!isAFinalState || !isParenBalance()) {
+                    reject();
+                }
             }
-            else if(current.getType() != TokenType.EPSILON){ //E
+            else { //has next token
                 if(lookaheadToken.getType() == TokenType.ALPHANUM){
                     super.index++;
                     chars();
@@ -55,9 +68,9 @@ public class regExParser extends Parser{
                     lookaheadToken.getType() == TokenType.OPTIONAL ||
                     lookaheadToken.getType() == TokenType.ZERO_OR_MANY ||
                     lookaheadToken.getType() == TokenType.ONE_OR_MANY
-                ) {
+                ){
                     super.index++;
-                    chars();
+                    oper();
                 }
                 else if(lookaheadToken.getType() == TokenType.UNION){
                     super.index++;
@@ -69,44 +82,71 @@ public class regExParser extends Parser{
                 }
                 else if(lookaheadToken.getType() == TokenType.RIGHT_PAR){
                     super.index++;
-                    oper();
+                    start();
                 }
-            }
-        }
-        else{
-            if(
-                current.getType() == TokenType.REJECT ||
-                current.getType() == TokenType.RIGHT_PAR ||
-                current.getType() == TokenType.UNION ||
-                current.getType() == TokenType.OPTIONAL ||
-                current.getType() == TokenType.ZERO_OR_MANY ||
-                current.getType() == TokenType.ONE_OR_MANY
-            ){
-                reject();
             }
         }
     }
 
     //** chars ->  ALPHANUM oper *//*
     public void chars(){ //state 1
-        Token lookaheadToken = lookahead(super.index);
-        // Token current = tokens.get(super.index); guaranteed alphanum
+        if(super.parseEval) {
+            Token lookaheadToken = lookahead(super.index); //get next token
+            Token current = tokens.get(super.index); //get current token
+            final boolean isAFinalState = true; //start is a final state
+            handleParen(current);
 
-        if(lookaheadToken != null) {
-            if (lookaheadToken.getType() == TokenType.ALPHANUM) {
-                super.index++;
-                oper();
-            } else {
-                reject();
+            //if last token
+            if(lookaheadToken == null){
+                if(!isAFinalState || !isParenBalance()) {
+                    reject();
+                }
+            }
+            else { //has next token
+                if (lookaheadToken.getType() == TokenType.ALPHANUM) {
+                    super.index++;
+                    chars();
+                }
+                else if(lookaheadToken.getType() == TokenType.LEFT_PAR || lookaheadToken.getType() == TokenType.RIGHT_PAR){
+                    super.index++;
+                    start();
+                }
+                else if(
+                    lookaheadToken.getType() == TokenType.ZERO_OR_MANY ||
+                    lookaheadToken.getType() == TokenType.ONE_OR_MANY ||
+                    lookaheadToken.getType() == TokenType.OPTIONAL
+                ){
+                    super.index++;
+                    oper();
+                }
+                else if(lookaheadToken.getType() == TokenType.UNION){
+                    super.index++;
+                    comb();
+                }
+                else {
+                    reject();
+                }
             }
         }
     }
 
     //** oper -> OPERATIONS more | comb | ε *//*
     public void oper(){ //state 2
-        Token lookaheadToken = lookahead(super.index);
-        if(lookaheadToken != null) {
-            if(lookaheadToken.getType() == TokenType.ALPHANUM || lookaheadToken.getType() == TokenType.LEFT_PAR) {
+        Token lookaheadToken = lookahead(super.index); //get next token
+        Token current = tokens.get(super.index); //get current token
+        final boolean isAFinalState = true; //start is a final state
+
+        //if last token
+        if(lookaheadToken == null){
+            if(!isAFinalState || !isParenBalance()) {
+                reject();
+            }
+        }
+        else { //has next token
+            if(
+                lookaheadToken.getType() == TokenType.ALPHANUM ||
+                lookaheadToken.getType() == TokenType.LEFT_PAR
+            ) {
                 super.index++;
                 more();
             }
@@ -121,6 +161,10 @@ public class regExParser extends Parser{
             ){
                 reject();
             }
+            else if(lookaheadToken.getType() == TokenType.RIGHT_PAR){
+                super.index++;
+                start();
+            }
             else {
                 reject();
             }
@@ -129,9 +173,18 @@ public class regExParser extends Parser{
 
     //** comb -> UNION factor *//*
     public void comb(){ //state 3
-        Token lookaheadToken = lookahead(super.index);
-        if(lookaheadToken != null) {
-            if (lookaheadToken.getType() == TokenType.UNION) {
+        Token lookaheadToken = lookahead(super.index); //get next token
+        Token current = tokens.get(super.index); //get current token
+        final boolean isAFinalState = false; //start is a final state
+
+        //if last token
+        if(lookaheadToken == null){
+            if(!isAFinalState || !isParenBalance()) {
+                reject();
+            }
+        }
+        else { //has next token
+            if (lookaheadToken.getType() != TokenType.UNION && lookaheadToken.getType() != TokenType.RIGHT_PAR) {
                 super.index++;
                 factor();
             }
@@ -143,17 +196,42 @@ public class regExParser extends Parser{
 
     //** factor -> start | EPSILON *//*
     public void factor(){ //state 4
-        Token lookaheadToken = lookahead(super.index);
-        if(lookaheadToken != null) {
-            super.index++;
-            start();
+        Token lookaheadToken = lookahead(super.index); //get next token
+        Token current = tokens.get(super.index); //get current token
+        final boolean isAFinalState = true; //start is a final state
+        handleParen(current);
+
+        //if last token
+        if(lookaheadToken == null){
+            if(!isAFinalState || !isParenBalance()) {
+                reject();
+            }
+        }
+        else { //has next token
+            if(current.getType() == TokenType.EPSILON){
+                reject();
+            }
+            else {
+                super.index++;
+                start();
+            }
         }
     }
 
     //** more-> start | comb | ε *//*
     public void more(){ //state 5
-        Token lookaheadToken = lookahead(super.index);
-        if(lookaheadToken != null) {
+        Token lookaheadToken = lookahead(super.index); //get next token
+        Token current = tokens.get(super.index); //get current token
+        final boolean isAFinalState = false; //start is a final state
+        handleParen(current);
+
+        //if last token
+        if(lookaheadToken == null){
+            if(!isAFinalState || !isParenBalance()) {
+                reject();
+            }
+        }
+        else { //has next token
             if(lookaheadToken.getType() == TokenType.UNION){
                 super.index++;
                 comb();

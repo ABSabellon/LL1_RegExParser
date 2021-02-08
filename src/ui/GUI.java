@@ -194,7 +194,7 @@ public class GUI extends JPanel {
                             if(scannedTokens.size() > 0){
                                 content += " - ";
                                 regExParser parser = new regExParser(scannedTokens);
-                                parseContent += " - " + parser.parseEvalString;
+                                parseContent += " - " + parser.parseEvalString + " - " + parser.isParenBalance();
                                 for(Token token: scannedTokens) {
                                     if(token.getType() != TokenType.DELIMITER){
                                         content = content + token.getType() + " ";
