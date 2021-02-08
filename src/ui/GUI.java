@@ -4,11 +4,7 @@ package ui;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.List;
 
 import core.exception.ParseException;
@@ -30,6 +26,9 @@ import javax.swing.*;
 import static javax.swing.JOptionPane.INFORMATION_MESSAGE;
 
 public class GUI extends JPanel {
+    String content = "";
+    String parseContent = "";
+
     private JFrame frame;
 
     private JPanel jInputPanel;
@@ -178,8 +177,8 @@ public class GUI extends JPanel {
         @Override
         public void actionPerformed(ActionEvent e) {
             String[] lines = inputTextPanel.getText().split(System.getProperty("line.separator"));
-            String content = "";
-            String parseContent = "";
+            content = "";
+            parseContent = "";
 
             for(String line: lines){
                 Scanner scanner = new Scanner(line);
@@ -224,7 +223,19 @@ public class GUI extends JPanel {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-
+            String toPrint = "Scanned Tokens \n";
+            toPrint += content;
+            toPrint += "\n\n";
+            toPrint += "Parsed content\n";
+            toPrint += parseContent;
+            try {
+                FileWriter wr = new FileWriter("./etc/txtFiles/output.txt");                  // output file name
+                wr.write(toPrint);
+                wr.close();
+            }
+            catch(IOException err){
+                err.printStackTrace();
+            }
         }
     }
 }
