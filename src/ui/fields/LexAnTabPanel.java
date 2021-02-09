@@ -10,7 +10,7 @@ public class LexAnTabPanel extends JPanel implements GUIInterface {
 
     public LexAnTabPanel(){
         setLayout(new BorderLayout(0, 0));
-        jTextArea = new JTextArea(30, 35);
+        jTextArea = new JTextArea(30, 50);
         jTextArea.setEditable(false);
         jTextArea.setLineWrap(false);
 

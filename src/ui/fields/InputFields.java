@@ -15,7 +15,7 @@ public class InputFields extends JPanel implements GUIInterface {
 
         setBorder(BorderFactory.createLineBorder(Color.black));
 
-        jTextArea = new JTextArea(30, 40);
+        jTextArea = new JTextArea(30, 30);
 
         JScrollPane scrollPane = new JScrollPane(jTextArea);
         scrollPane.setAutoscrolls(true);

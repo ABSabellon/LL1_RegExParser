@@ -1,28 +1,15 @@
-## CMPILER- Regular Expression Recognizer
+CMPILER- Regular Expression Recognizer
 
-### Aileen Sabellon
-### CMPILER S11
+Aileen Sabellon
+CMPILER S11
 
-## IDE:
+IDE:
 
     - IDE used: INTELLIJ
 
-## How to run the program:
+How to run the program:
 
-### There are two type of program one is with a GUI and the other has no GUI.
-
-#### Running non-GUI:
-
-    1. In the txtFiles folder under etc folder, paste the test cases in the input.txt file.
-	
-    2. Open the file "MainWithoutGUI.java inside the src folder.
-	
-    3. Compile the project.
-	
-    4. An output file should be available in the txtFiles folder, containing the result.
-
-
-#### Running GUI:
+Running GUI:
 
 	1. Compile and Run the MainWithGUI.java in the src folder.
 	
@@ -41,9 +28,8 @@
 		- The Lexer shows the token type of each scanned characters.
 
 
-#### Follows the LL(1) Parser Grammar:
+Follows the LL(1) Parser Grammar:
 
-``` Java
 
   start -> chars
         | LP start RP oper
@@ -67,36 +53,28 @@
   UNION -> 'U'
   LP -> '('
   RP -> ')'  
-  
-```
 
-#### First Set
 
-``` Java
+First Set
 
-first(start) -> { '(', [a-z0-9], 'E' }
-first(chars) -> { [a-z0-9] }
-first(oper) -> { [ '?'| '*'| '+' ],'U', ε }
-first(comb) -> { 'U' }
-first(factor) -> { '(', [a-z0-9], 'E'}
-first(more) -> { '(', [a-z0-9], 'U', 'E', ε  }
 
-    
-```
+    first(start) -> { '(', [a-z0-9], 'E' }
+    first(chars) -> { [a-z0-9] }
+    first(oper) -> { [ '?'| '*'| '+' ],'U', ε }
+    first(comb) -> { 'U' }
+    first(factor) -> { '(', [a-z0-9], 'E'}
+    first(more) -> { '(', [a-z0-9], 'U', 'E', ε  }
 
-#### Follow Set
 
-``` Java
+Follow Set
 
-follow(start) -> { ')', $ }
-follow(chars) -> { ')', $  }
-follow(oper) -> { ')', $  }
-follow(comb) -> { ')', $  }
-follow(factor) -> { ')', $  }
-follow(more) -> { ')', $  }
 
-    
-```
+    follow(start) -> { ')', $ }
+    follow(chars) -> { ')', $  }
+    follow(oper) -> { ')', $  }
+    follow(comb) -> { ')', $  }
+    follow(factor) -> { ')', $  }
+    follow(more) -> { ')', $  }
 
 #### Look Ahead Table
 

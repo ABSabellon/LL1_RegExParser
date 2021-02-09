@@ -9,28 +9,15 @@
 
 ## How to run the program:
 
-### There are two type of program one is with a GUI and the other has no GUI.
-
-#### Running non-GUI:
-
-    1. In the txtFiles folder under etc folder, paste the test cases in the input.txt file.
-	
-    2. Open the file "MainWithoutGUI.java inside the src folder.
-	
-    3. Compile the project.
-	
-    4. An output file should be available in the txtFiles folder, containing the result.
-
-
 #### Running GUI:
 
 	1. Compile and Run the MainWithGUI.java in the src folder.
 	
 	2. Getting Test Cases Input:
-		-The left side of the Interface is available to write the test cases.
+		- The left side of the Interface is available to write the test cases.
 		
-		-Test cases can also be obtained by opening the file in the File Menu Bar, Directory is
-		 automatically set to the txtFiles Folder.
+		- Test cases can also be obtained by opening the file in the File Menu Bar.
+        - TheDirectory is automatically set to the txtFiles Folder.
 		 
 	3. Press Run to print the result in the right side of the Interface.
 		- There are two tabs for the result the Parser and the Lexer

@@ -239,7 +239,7 @@ public class RegExParser extends Parser {
         //if last token
         if(lookaheadToken == null){
             if(!isAFinalState || !isParenBalance()) {
-                reject();
+                reject(); //Print Error
             }
         }
         else { //has next token
