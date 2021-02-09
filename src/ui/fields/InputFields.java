@@ -3,6 +3,7 @@ package ui.fields;
 import ui.util.GUIInterface;
 
 import javax.swing.*;
+import javax.swing.text.DefaultEditorKit;
 import java.awt.*;
 
 
@@ -16,6 +17,7 @@ public class InputFields extends JPanel implements GUIInterface {
         setBorder(BorderFactory.createLineBorder(Color.black));
 
         jTextArea = new JTextArea(30, 30);
+        jTextArea.getDocument().putProperty(DefaultEditorKit.EndOfLineStringProperty, "\r\n");
 
         JScrollPane scrollPane = new JScrollPane(jTextArea);
         scrollPane.setAutoscrolls(true);
@@ -30,7 +32,7 @@ public class InputFields extends JPanel implements GUIInterface {
 
     @Override
     public String getText() {
-        return jTextArea.getText();
+        return jTextArea.getText().replace("\n", System.getProperty("line.separator"));
     }
 
     @Override
