@@ -19,10 +19,10 @@ public class Parser {
             if(token.getType() != TokenType.DELIMITER){
                 tokens.add(token);
             }
-            if(token.getType() != TokenType.REJECT){
-                reject();
-                break;
-            }
+//            if(token.getType() != TokenType.REJECT){
+//                reject();
+//                break;
+//            }
         }
         parenthesisStack = new Stack<Token>();
         index = 0;
