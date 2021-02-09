@@ -16,6 +16,9 @@ import java.util.List;
  * more-> start | comb | ε
  */
 
+/**
+ * Parser
+ * */
 public class RegExParser extends Parser {
     public RegExParser(List<Token> scannedTokens) {
         super(scannedTokens);

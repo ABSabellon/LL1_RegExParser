@@ -16,7 +16,7 @@ import static core.lexer.TokenType.*;
  * */
 
 /**
- * scanner.Scanner class for the calculator. Parses the input string, identifying valid tokens.
+ * Scanner class for the calculator. Parses the input string, identifying valid tokens.
  */
 public class Scanner { //implements TokenSource {
     /**
@@ -135,10 +135,6 @@ public class Scanner { //implements TokenSource {
 
     private char advance() {
         return input.charAt(current++);
-    }
-
-    private char peek() {
-        return input.charAt(current);
     }
 
     private void addToken(TokenType type) {

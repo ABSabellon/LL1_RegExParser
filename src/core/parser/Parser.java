@@ -23,7 +23,9 @@ public class Parser {
         parenthesisStack = new Stack<Token>();
         index = 0;
     }
-
+    /**
+     * lookahead is used to check if the token matches the rule
+     */
     public Token lookahead(int index){
         if((index+1) < tokens.size()){
             return tokens.get(index+1);
@@ -32,8 +34,10 @@ public class Parser {
             return null;
         }
     }
-
-    public Token startOfToken(int index){ //This solely used to check if it is the start of the string.
+    /**
+     * This solely used to check if it is the start of the string.
+     */
+    public Token startOfToken(int index){
         if(index > 0){
             return tokens.get(index-1);
         }
