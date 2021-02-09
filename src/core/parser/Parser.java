@@ -15,16 +15,25 @@ public class Parser {
     private Stack<Token> parenthesisStack;
 
     public Parser(List<Token> scannedTokens){
+        parenthesisStack = new Stack<Token>();
         for(Token token: scannedTokens){
             if(token.getType() != TokenType.DELIMITER){
                 tokens.add(token);
+                if(token.getType() == TokenType.LEFT_PAR){
+                    parenthesisStack.push(token);
+                }
+                if(token.getType() == TokenType.RIGHT_PAR && !parenthesisStack.empty()) {
+                    parenthesisStack.pop();
+                }
             }
             if(token.getType() == TokenType.REJECT){
                 reject();
                 break;
             }
         }
-        parenthesisStack = new Stack<Token>();
+        if(parenthesisStack.size() > 0){
+            reject();
+        }
         index = 0;
     }
 
@@ -54,18 +63,5 @@ public class Parser {
         else{
             return null;
         }
-    }
-
-    public void handleParen(Token tk){
-        if(tk.getType() == TokenType.LEFT_PAR) {
-            parenthesisStack.push(tk);
-        }
-        if(tk.getType() == TokenType.RIGHT_PAR) {
-            parenthesisStack.pop();
-        }
-    }
-
-    public boolean isParenBalance(){
-        return parenthesisStack.empty();
     }
 }
