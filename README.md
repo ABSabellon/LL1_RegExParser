@@ -12,8 +12,9 @@
 #### Running GUI:
 
 	1. Compile and Run the MainWithGUI.java in the src folder.
+![alt text](https://github.com/ABSabellon/LL1_RegExParser/blob/master/etc/imgs/runFile.png?raw=true)
 	
-	2. Getting Test Cases Input:
+    2. Getting Test Cases Input:
 		- The left side of the Interface is available to write the test cases.
 		
 		- Test cases can also be obtained by opening the file in the File Menu Bar.
