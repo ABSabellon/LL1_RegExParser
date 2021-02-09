@@ -3,29 +3,36 @@
 ### Aileen Sabellon
 ### CMPILER S11
 
-## IDE:
+## USED:
 
     - IDE used: INTELLIJ
+    - Library used: Java ver 15.0.2
 
 ## How to run the program:
 
 #### Running GUI:
 
 	1. Compile and Run the MainWithGUI.java in the src folder.
+![GUI](https://github.com/ABSabellon/LL1_RegExParser/blob/master/etc/imgs/GUI.PNG)
 	
-	2. Getting Test Cases Input:
+    2. Getting Test Cases Input:
 		- The left side of the Interface is available to write the test cases.
 		
 		- Test cases can also be obtained by opening the file in the File Menu Bar.
-        - TheDirectory is automatically set to the txtFiles Folder.
+
+            - The Directory is automatically set to the txtFiles Folder.
+![openFile](https://github.com/ABSabellon/LL1_RegExParser/blob/master/etc/imgs/openFile.PNG)
 		 
 	3. Press Run to print the result in the right side of the Interface.
 		- There are two tabs for the result the Parser and the Lexer
 		
 		- The Parser shows if the whole string is Rejected or Accepted by the LL(1) parser Grammar
 			each Strings are separated by next line ('\n').
-			
-		- The Lexer shows the token type of each scanned characters.
+![parserTab](https://github.com/ABSabellon/LL1_RegExParser/blob/master/etc/imgs/parserTab.PNG)
+
+             - The Lexer shows the token type of each scanned characters.
+
+![lexerTab](https://github.com/ABSabellon/LL1_RegExParser/blob/master/etc/imgs/lexerTab.PNG)
 
 
 #### Follows the LL(1) Parser Grammar:
