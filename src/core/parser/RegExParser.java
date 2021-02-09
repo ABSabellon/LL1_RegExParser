@@ -201,7 +201,13 @@ public class RegExParser extends Parser {
             }
         }
         else { //has next token
-            if (lookaheadToken.getType() != TokenType.UNION && lookaheadToken.getType() != TokenType.RIGHT_PAR) {
+            if (
+                    lookaheadToken.getType() != TokenType.UNION &&
+                    lookaheadToken.getType() != TokenType.RIGHT_PAR &&
+                    lookaheadToken.getType() != TokenType.ONE_OR_MANY &&
+                    lookaheadToken.getType() != TokenType.ZERO_OR_MANY &&
+                    lookaheadToken.getType() != TokenType.OPTIONAL
+            ) {
                 super.index++;
                 factor();
             }
