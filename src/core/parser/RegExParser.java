@@ -26,11 +26,6 @@ public class RegExParser extends Parser {
         start(); //state 0
     }
 
-    private void reject(){
-        super.parseEvalString = "REJECTED";
-        super.parseEval = false;
-    }
-
     /**
      * start -> chars | LP start RP oper | EPSILON
      */
