@@ -95,6 +95,8 @@ public class GUI extends JPanel {
             @Override
             public void setNewFileListener(ActionEvent event) {
                 inputTextPanel.clear();
+                parserTab.clear();
+                lexAnTab.clear();
             }
 
             @Override
