@@ -12,18 +12,18 @@ public class Parser {
     public boolean parseEval = true;
     public String parseEvalString = "ACCEPTED";
     public int index;
-    private Stack<Token> parenthesisStack;
+    private int parenthesisStack;
 
     public Parser(List<Token> scannedTokens){
-        parenthesisStack = new Stack<Token>();
+        parenthesisStack = 0;
         for(Token token: scannedTokens){
             if(token.getType() != TokenType.DELIMITER){
                 tokens.add(token);
                 if(token.getType() == TokenType.LEFT_PAR){
-                    parenthesisStack.push(token);
+                    parenthesisStack++;
                 }
-                if(token.getType() == TokenType.RIGHT_PAR && !parenthesisStack.empty()) {
-                    parenthesisStack.pop();
+                if(token.getType() == TokenType.RIGHT_PAR) {
+                    parenthesisStack--;
                 }
             }
             if(token.getType() == TokenType.REJECT){
@@ -31,7 +31,7 @@ public class Parser {
                 break;
             }
         }
-        if(parenthesisStack.size() > 0){
+        if(parenthesisStack != 0){
             reject();
         }
         index = 0;
