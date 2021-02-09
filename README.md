@@ -17,7 +17,8 @@
 		- The left side of the Interface is available to write the test cases.
 		
 		- Test cases can also be obtained by opening the file in the File Menu Bar.
-        - TheDirectory is automatically set to the txtFiles Folder.
+
+            - The Directory is automatically set to the txtFiles Folder.
 		 
 	3. Press Run to print the result in the right side of the Interface.
 		- There are two tabs for the result the Parser and the Lexer
