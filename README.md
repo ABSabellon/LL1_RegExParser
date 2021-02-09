@@ -14,7 +14,7 @@
 
 	1. Compile and Run the MainWithGUI.java in the src folder.
 ![GUI](https://github.com/ABSabellon/LL1_RegExParser/blob/master/etc/imgs/GUI.PNG)
-	
+
     2. Getting Test Cases Input:
 		- The left side of the Interface is available to write the test cases.
 		
@@ -22,7 +22,7 @@
 
             - The Directory is automatically set to the txtFiles Folder.
 ![openFile](https://github.com/ABSabellon/LL1_RegExParser/blob/master/etc/imgs/openFile.PNG)
-		 
+
 	3. Press Run to print the result in the right side of the Interface.
 		- There are two tabs for the result the Parser and the Lexer
 		
@@ -39,17 +39,16 @@
 
 ``` Java
 
-  start -> chars
-        | LP start RP oper
-        | E
+  regEx -> chars
+        | LP regEx RP oper
+        | eps 
+  eps -> E | E comb
   chars ->  ALPHANUM oper
   oper -> OPERATIONS more
         | comb 
-        | ε
-  comb -> UNION factor
-  factor -> start 
-        | EPSILON
-  more-> start
+        | ε      
+  comb -> UNION regEx
+  more-> regEx
         | comb
         | ε
 		
@@ -68,11 +67,11 @@
 
 ``` Java
 
-first(start) -> { '(', [a-z0-9], 'E' }
+first(regEx) -> { '(', [a-z0-9], 'E' }
+first(eps) -> { 'E', 'U' }
 first(chars) -> { [a-z0-9] }
 first(oper) -> { [ '?'| '*'| '+' ],'U', ε }
 first(comb) -> { 'U' }
-first(factor) -> { '(', [a-z0-9], 'E'}
 first(more) -> { '(', [a-z0-9], 'U', 'E', ε  }
 
     
@@ -82,7 +81,7 @@ first(more) -> { '(', [a-z0-9], 'U', 'E', ε  }
 
 ``` Java
 
-follow(start) -> { ')', $ }
+follow(regEx) -> { ')', $ }
 follow(chars) -> { ')', $  }
 follow(oper) -> { ')', $  }
 follow(comb) -> { ')', $  }
@@ -96,12 +95,13 @@ follow(more) -> { ')', $  }
 
 |           |        [a-z0-9]        |   ['?', '*', '+']  |          'E'       |        'U'      |           '('        |        ')'      |         ε       |         $       |
 | --------- |:----------------------:|:------------------:|:------------------:|:---------------:|:--------------------:|:---------------:|:---------------:| ---------------:|
-| start     |    start -> chars      |                    |      start -> E    |                 | start -> LP start RP |                 |                 |                 |
+| start     |    start -> regEx $    |                    |   start -> regEx   |                 | start -> regEx $     |                 |                 |                 |
+| regEx     |    regEx -> chars      |                    |     regEx -> E     |                 | regEx -> LP regEx RP |                 |                 |                 |
+| eps       |                        |                    |   eps -> E comb    |                 |                      |                 |                 |                 |
 | chars     | chars -> ALPHANUM OPER |                    |                    |                 |                      |                 |                 |                 |
-| oper      |                        | oper -> OPERATIONS |                    |  oper -> UNION  |                      |                 |    oper -> ε    |                 |
+| oper      |                        | oper -> OPERATIONS |                    |  oper -> comb   |                      |                 |    oper -> ε    |                 |
 | comb      |                        |                    |                    |  comb -> UNION  |                      |                 |                 |                 |
-| factor    |    factor -> chars     |                    | factor -> EPSILON  |                 | factor-> LP start RP |                 |                 |                 |
-| more      |     more -> chars      |                    |  more -> EPSILON   |   more -> comb  |  more-> LP start RP  |                 |    more -> ε    |                 |
+| more      |     more -> regEx      |                    |  more -> regEx     |  more -> regEx  |     more-> regEx     |                 |    more -> ε    |                 |
 
 
 
