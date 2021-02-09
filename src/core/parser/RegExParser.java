@@ -31,7 +31,9 @@ public class RegExParser extends Parser {
         super.parseEval = false;
     }
 
-    /** start -> chars | LP start RP oper | EPSILON */
+    /**
+     * start -> chars | LP start RP oper | EPSILON
+     */
     public void start(){ //state 0
         if(super.parseEval){
             Token lookaheadToken = lookahead(super.index); //get next token
@@ -102,7 +104,9 @@ public class RegExParser extends Parser {
         }
     }
 
-    /** chars ->  ALPHANUM oper */
+    /**
+     * chars ->  ALPHANUM oper
+     */
     public void chars(){ //state 1
         if(super.parseEval) {
             Token lookaheadToken = lookahead(super.index); //get next token
@@ -144,7 +148,9 @@ public class RegExParser extends Parser {
         }
     }
 
-    /** oper -> OPERATIONS more | comb | ε */
+    /**
+     * oper -> OPERATIONS more | comb | ε
+     */
     public void oper(){ //state 2
         Token lookaheadToken = lookahead(super.index); //get next token
         Token current = tokens.get(super.index); //get current token
@@ -185,7 +191,9 @@ public class RegExParser extends Parser {
         }
     }
 
-    /** comb -> UNION factor */
+    /**
+     * comb -> UNION factor
+     */
     public void comb(){ //state 3
         Token lookaheadToken = lookahead(super.index); //get next token
         Token current = tokens.get(super.index); //get current token
@@ -208,7 +216,9 @@ public class RegExParser extends Parser {
         }
     }
 
-    /** factor -> start | EPSILON */
+    /**
+     * factor -> start | EPSILON
+     */
     public void factor(){ //state 4
         Token lookaheadToken = lookahead(super.index); //get next token
         Token current = tokens.get(super.index); //get current token
@@ -232,7 +242,9 @@ public class RegExParser extends Parser {
         }
     }
 
-    /** more-> start | comb | ε */
+    /**
+     * more-> start | comb | ε
+     */
     public void more(){ //state 5
         Token lookaheadToken = lookahead(super.index); //get next token
         Token current = tokens.get(super.index); //get current token
