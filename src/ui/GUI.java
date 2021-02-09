@@ -11,7 +11,7 @@ import core.exception.ParseException;
 import core.lexer.Scanner;
 import core.lexer.Token;
 import core.lexer.TokenType;
-import core.parser.regExParser;
+import core.parser.RegExParser;
 import ui.fields.InputFields;
 import ui.fields.LexAnTabPanel;
 import ui.fields.ParserTabPanel;
@@ -82,10 +82,10 @@ public class GUI extends JPanel {
         //Tabs
         tabbedPane = new JTabbedPane();
 
-        tabbedPane.add("Token Recognizer ", lexAnTab);
+        tabbedPane.add("Parser", parserTab);
         this.add(tabbedPane);
 
-        tabbedPane.add("Parser", parserTab);
+        tabbedPane.add("Token Recognizer ", lexAnTab);
         this.add(tabbedPane);
 
         GUIMenu guiMenuBar = new GUIMenu();
@@ -192,7 +192,7 @@ public class GUI extends JPanel {
                         if(scannedTokens != null){
                             if(scannedTokens.size() > 0){
                                 content += " - ";
-                                regExParser parser = new regExParser(scannedTokens);
+                                RegExParser parser = new RegExParser(scannedTokens);
                                 parseContent += " - " + parser.parseEvalString;
                                 for(Token token: scannedTokens) {
                                     if(token.getType() != TokenType.DELIMITER){
@@ -215,7 +215,6 @@ public class GUI extends JPanel {
             }
             lexAnTab.setText(content);
             parserTab.setText(parseContent);
-
         }
     }
 
@@ -223,11 +222,11 @@ public class GUI extends JPanel {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            String toPrint = "Scanned Tokens \n";
-            toPrint += content;
-            toPrint += "\n\n";
-            toPrint += "Parsed content\n";
+            String toPrint = "Parsed content\n";
             toPrint += parseContent;
+//            toPrint += "\n\n";
+//            toPrint += "Scanned Tokens \n";
+//            toPrint += content;
             try {
                 FileWriter wr = new FileWriter("./etc/txtFiles/output.txt");                  // output file name
                 wr.write(toPrint);

@@ -33,7 +33,7 @@ public class Parser {
         }
     }
 
-    public Token lookbehind(int index){
+    public Token startOfToken(int index){ //This solely used to check if it is the start of the string.
         if(index > 0){
             return tokens.get(index-1);
         }

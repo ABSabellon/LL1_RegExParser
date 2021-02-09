@@ -1,6 +1,6 @@
 package core.exception;
 
-public class parserError extends Exception{
+public class ParserError extends Exception{
     public String getMessage() {
         return "REJECTED";
     }

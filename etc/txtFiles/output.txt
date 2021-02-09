@@ -1,0 +1,17 @@
+Parsed content
+a b - ACCEPTED
+a b b b b c d e f - ACCEPTED
+a U b * - ACCEPTED
+U - REJECTED
+E - ACCEPTED
+( a U b ) U 1 - ACCEPTED
+( a ) U ( b ) - ACCEPTED
+( a a U ( b ) - REJECTED
+( a b * c * U b ? ? ) - REJECTED
+* ( a b ) - REJECTED
+a + + - REJECTED
+a + U b * U c ? U E - ACCEPTED
+1 2 3 4 E - REJECTED
+1 2 3 4 ? - ACCEPTED
+1 a * U 2 * b U 3 + c + U 4 + d ? - ACCEPTED
+A B 2 3 * - REJECTED

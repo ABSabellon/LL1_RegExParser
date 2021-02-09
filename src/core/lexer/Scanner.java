@@ -45,7 +45,7 @@ public class Scanner { //implements TokenSource {
         this.current = 0;
         this.scannedTokens = new ArrayList<>();
     }
-
+    /** Tokens are scanned and placed int a List*/
     public List<Token> scanTokens() {
         while (!isAtEnd()) {
             start = current;
@@ -55,8 +55,9 @@ public class Scanner { //implements TokenSource {
         return scannedTokens;
     }
 
-    //The switch case below is based in a FSM
+    //The switch case below is based in an FSM
     private void scanToken() {
+        int state = 0;// start state
         char ch = advance();
 
         switch (ch) {
@@ -65,44 +66,65 @@ public class Scanner { //implements TokenSource {
             case '\t':
             case '\r':
             case '\n':
-                addToken(DELIMITER); //State 1
+                state = 1; //DELIMETERS
                 break;
 
             case '?':
-                addToken(OPTIONAL); //State 2
+                state = 2; //OPTIONAL
                 break;
 
             case '*':
-                addToken(ZERO_OR_MANY); //State 3
+                state = 3; //ZERO_OR_MANY
                 break;
 
             case '+':
-                addToken(ONE_OR_MANY); //State 4
+                state = 4; //ONE_OR_MANY
                 break;
 
             case 'E':
-                addToken(EPSILON); //State 5
+                state = 5;; //EPSILON
                 break;
 
             case 'U':
-                addToken(UNION); //State 6
+                state = 6;; //UNION
                 break;
 
             case '(':
-                addToken(LEFT_PAR); //State 7
+                state = 7;; //LEFT PARENTHESIS
                 break;
 
             case ')':
-                addToken(RIGHT_PAR); //State 8
+                state = 8;; //RIGHT PARENTHESIS
                 break;
             default:
                 if (Character.isDigit(ch) || Character.isLowerCase(ch)) {
-                    addToken(ALPHANUM); //a-z0-9??? State 9
+                    state = 9;; //a-z0-9??? ALPHANUM
                 }
                 else {
-                    addToken(REJECT); // ETC State 10
+                    state = 10; // ETC / REJECTS
                 }
         }
+        // Place each Tokens to their respective types
+        if(state == 1)
+            addToken(DELIMITER);
+        if(state == 2)
+            addToken(OPTIONAL);
+        if(state == 3)
+            addToken(ZERO_OR_MANY);
+        if(state == 4)
+            addToken(ONE_OR_MANY);
+        if(state == 5)
+            addToken(EPSILON);
+        if(state == 6)
+            addToken(UNION);
+        if(state == 7)
+            addToken(LEFT_PAR);
+        if(state == 8)
+            addToken(RIGHT_PAR);
+        if(state == 9)
+            addToken(ALPHANUM);
+        if(state == 10)
+            addToken(REJECT);
     }
 
     private boolean isAtEnd() {
